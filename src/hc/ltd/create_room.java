@@ -70,6 +70,7 @@ public class create_room extends javax.swing.JFrame {
             }
         });
 
+        roomPriceTF.setEditable(false);
         roomPriceTF.setFont(new java.awt.Font("Liberation Sans", 0, 18)); // NOI18N
 
         jButton1.setFont(new java.awt.Font("Liberation Sans", 1, 15)); // NOI18N
@@ -140,10 +141,10 @@ public class create_room extends javax.swing.JFrame {
         
         if (room_state.equals("DELUXE")){
             
-            roomPriceTF.setText("1500");
+            roomPriceTF.setText("2000");
             
         }else if(room_state.equals("STANDARD")){
-            roomPriceTF.setText("2000");
+            roomPriceTF.setText("1500");
         }else{
                 JOptionPane.showMessageDialog(this, "SELECT ROOM TYPE");
         }
