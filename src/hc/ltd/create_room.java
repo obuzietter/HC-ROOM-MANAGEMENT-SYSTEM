@@ -4,7 +4,14 @@
  */
 package hc.ltd;
 
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -34,12 +41,14 @@ public class create_room extends javax.swing.JFrame {
         roomNoTF = new javax.swing.JTextField();
         roomTypeCombo = new javax.swing.JComboBox<>();
         roomPriceTF = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        createRoomBtn = new javax.swing.JButton();
+        deleteBtn = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        rooms_display = new javax.swing.JTable();
+        showBtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("ADD NEW ROOM");
-        setResizable(false);
 
         jLabel2.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
         jLabel2.setText("ROOM NO");
@@ -52,6 +61,9 @@ public class create_room extends javax.swing.JFrame {
 
         roomNoTF.setFont(new java.awt.Font("Liberation Sans", 0, 18)); // NOI18N
         roomNoTF.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                roomNoTFFocusGained(evt);
+            }
             public void focusLost(java.awt.event.FocusEvent evt) {
                 roomNoTFFocusLost(evt);
             }
@@ -71,58 +83,113 @@ public class create_room extends javax.swing.JFrame {
         });
 
         roomPriceTF.setEditable(false);
+        roomPriceTF.setBackground(new java.awt.Color(204, 204, 204));
         roomPriceTF.setFont(new java.awt.Font("Liberation Sans", 0, 18)); // NOI18N
 
-        jButton1.setFont(new java.awt.Font("Liberation Sans", 1, 15)); // NOI18N
-        jButton1.setText("SAVE & NEW");
+        createRoomBtn.setFont(new java.awt.Font("Liberation Sans", 1, 15)); // NOI18N
+        createRoomBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/check-in.png"))); // NOI18N
+        createRoomBtn.setText("SAVE & NEW");
+        createRoomBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                createRoomBtnActionPerformed(evt);
+            }
+        });
 
-        jButton2.setFont(new java.awt.Font("Liberation Sans", 1, 15)); // NOI18N
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/close.png"))); // NOI18N
-        jButton2.setText("DELETE");
+        deleteBtn.setFont(new java.awt.Font("Liberation Sans", 1, 15)); // NOI18N
+        deleteBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/close.png"))); // NOI18N
+        deleteBtn.setText("DELETE");
+
+        rooms_display.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
+            },
+            new String [] {
+                "ROOM NO", "ROOM TYPE", "PRICE"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                true, true, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        rooms_display.setRowHeight(35);
+        jScrollPane1.setViewportView(rooms_display);
+
+        showBtn.setText("SHOW ROOMS");
+        showBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                showBtnActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(67, 67, 67)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel3)
-                    .addComponent(jLabel4))
-                .addGap(48, 48, 48)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(roomTypeCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(roomNoTF, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(roomPriceTF, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(34, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton1)
-                .addGap(18, 18, 18)
-                .addComponent(jButton2)
-                .addGap(80, 80, 80))
+                .addGap(38, 38, 38)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 566, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(37, 37, 37)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel4))
+                        .addGap(48, 48, 48)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(createRoomBtn)
+                                .addGap(18, 18, 18)
+                                .addComponent(deleteBtn))
+                            .addComponent(roomTypeCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(roomNoTF, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(roomPriceTF, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(108, 108, 108))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(showBtn)
+                        .addGap(247, 247, 247))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(70, 70, 70)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(roomNoTF, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(roomTypeCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel4)
-                    .addComponent(roomPriceTF, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(42, 42, 42)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(83, Short.MAX_VALUE))
+                .addGap(55, 55, 55)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel2)
+                            .addComponent(roomNoTF, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel3)
+                            .addComponent(roomTypeCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel4)
+                            .addComponent(roomPriceTF, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(40, 40, 40)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(deleteBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(createRoomBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addComponent(showBtn)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1))
+                .addGap(27, 27, 27))
         );
 
         pack();
@@ -133,27 +200,107 @@ public class create_room extends javax.swing.JFrame {
     }//GEN-LAST:event_roomNoTFActionPerformed
 
     private void roomNoTFFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_roomNoTFFocusLost
-        roomNoTF.setText("R" + roomNoTF.getText());
+
     }//GEN-LAST:event_roomNoTFFocusLost
 
     private void roomTypeComboItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_roomTypeComboItemStateChanged
         String room_state = roomTypeCombo.getSelectedItem().toString();
-        
-        if (room_state.equals("DELUXE")){
-            
+
+        if (room_state.equals("DELUXE")) {
+
             roomPriceTF.setText("2000");
-            
-        }else if(room_state.equals("STANDARD")){
+
+        } else if (room_state.equals("STANDARD")) {
             roomPriceTF.setText("1500");
-        }else{
-                JOptionPane.showMessageDialog(this, "SELECT ROOM TYPE");
+        } else {
+            JOptionPane.showMessageDialog(this, "SELECT ROOM TYPE");
         }
-        
+
     }//GEN-LAST:event_roomTypeComboItemStateChanged
 
-    /**
-     * @param args the command line arguments
-     */
+    private void createRoomBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createRoomBtnActionPerformed
+
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/HC_LTD", "root", "");
+            String sql = "INSERT INTO rooms (room_no, room_type, room_price) VALUES (?, ?, ?)";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setString(1, roomNoTF.getText());
+            stmt.setObject(2, roomTypeCombo.getSelectedItem());
+            stmt.setString(3, roomPriceTF.getText());
+
+            String roomcheck = "SELECT * FROM rooms where room_no=?";
+            PreparedStatement roomcheckstmt = conn.prepareStatement(roomcheck);
+            roomcheckstmt.setString(1, roomNoTF.getText());
+            ResultSet result = roomcheckstmt.executeQuery();
+
+            if (roomNoTF.getText().isEmpty()) {
+
+                JOptionPane.showMessageDialog(this, "ROOM NUMBER IS EMPTY!");
+
+            } else if (result.next()) {
+
+                JOptionPane.showMessageDialog(this, "ROOM ALREADY EXISTS IN DATABASE");
+
+            } else if (!(roomTypeCombo.getSelectedItem().equals("DELUXE") || roomTypeCombo.getSelectedItem().equals("STANDARD"))) {
+
+                JOptionPane.showMessageDialog(this, "SELECT ROOM TYPE");
+
+            } else {
+
+                stmt.executeUpdate();
+                JOptionPane.showMessageDialog(this, "ROOM CREATED SUCCCESSFULLY!");
+                reset();
+
+            }
+
+        } catch (Exception e) {
+            System.out.print(e);
+        }
+
+    }//GEN-LAST:event_createRoomBtnActionPerformed
+
+    private void roomNoTFFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_roomNoTFFocusGained
+        roomNoTF.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                char c = e.getKeyChar();
+                if (!(Character.isDigit(c) || c == KeyEvent.VK_BACK_SPACE || c == KeyEvent.VK_DELETE)) {
+                    e.consume();
+                }
+            }
+        });
+    }//GEN-LAST:event_roomNoTFFocusGained
+
+    private void showBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showBtnActionPerformed
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/HC_LTD", "root", "");
+            String sql = "SELECT * FROM rooms";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            ResultSet result = stmt.executeQuery(sql);
+
+            while (result.next()) {
+                String roomNo = result.getString("room_no");
+                String roomType = result.getString("room_type");
+                String roomPrice = result.getString("room_price");
+
+                String roomData[] = {"R" + roomNo, roomType, roomPrice};
+                DefaultTableModel table = (DefaultTableModel) rooms_display.getModel();
+                table.addRow(roomData);
+                
+            }
+
+        } catch (Exception e) {
+            System.out.print(e);
+        }
+    }//GEN-LAST:event_showBtnActionPerformed
+
+    private void reset() {
+        roomNoTF.setText(null);
+        roomPriceTF.setText(null);
+    }
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -182,18 +329,23 @@ public class create_room extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new create_room().setVisible(true);
+
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton createRoomBtn;
+    private javax.swing.JButton deleteBtn;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField roomNoTF;
     private javax.swing.JTextField roomPriceTF;
     private javax.swing.JComboBox<String> roomTypeCombo;
+    private javax.swing.JTable rooms_display;
+    private javax.swing.JButton showBtn;
     // End of variables declaration//GEN-END:variables
+
 }

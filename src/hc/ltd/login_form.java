@@ -6,8 +6,6 @@ import java.awt.event.WindowEvent;
 import java.sql.*;
 
 public class login_form extends javax.swing.JFrame {
-    
-    
 
     public login_form() {
         initComponents();
@@ -150,6 +148,7 @@ public class login_form extends javax.swing.JFrame {
                 if (result.next()) {
                     JOptionPane.showMessageDialog(this, "Login was successful!");
                     resetFields();
+                    setVisible(false);
                     new room_reserve_form().setVisible(true);
 
                 } else {
@@ -174,8 +173,6 @@ public class login_form extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-    
-    
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -204,7 +201,7 @@ public class login_form extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new login_form().setVisible(true);
-                            
+
             }
         });
     }
