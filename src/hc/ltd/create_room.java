@@ -98,13 +98,15 @@ public class create_room extends javax.swing.JFrame {
         deleteBtn.setFont(new java.awt.Font("Liberation Sans", 1, 15)); // NOI18N
         deleteBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/close.png"))); // NOI18N
         deleteBtn.setText("DELETE");
+        deleteBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteBtnActionPerformed(evt);
+            }
+        });
 
         rooms_display.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+
             },
             new String [] {
                 "ROOM NO", "ROOM TYPE", "PRICE"
@@ -128,6 +130,7 @@ public class create_room extends javax.swing.JFrame {
         rooms_display.setRowHeight(35);
         jScrollPane1.setViewportView(rooms_display);
 
+        showBtn.setFont(new java.awt.Font("Liberation Sans", 1, 15)); // NOI18N
         showBtn.setText("SHOW ROOMS");
         showBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -295,6 +298,17 @@ public class create_room extends javax.swing.JFrame {
             System.out.print(e);
         }
     }//GEN-LAST:event_showBtnActionPerformed
+
+    private void deleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteBtnActionPerformed
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/HC_LTD", "root", "");
+            String sql = "DELETE FROM rooms WHERE room_no = ";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+        }catch(Exception e){
+            System.out.print(e);
+        }
+    }//GEN-LAST:event_deleteBtnActionPerformed
 
     private void reset() {
         roomNoTF.setText(null);

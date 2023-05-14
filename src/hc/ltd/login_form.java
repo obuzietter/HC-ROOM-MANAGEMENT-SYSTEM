@@ -29,7 +29,7 @@ public class login_form extends javax.swing.JFrame {
         usernameTF = new javax.swing.JTextField();
         resetBtn = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
 
         cancelBtn.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
@@ -148,7 +148,8 @@ public class login_form extends javax.swing.JFrame {
                 if (result.next()) {
                     JOptionPane.showMessageDialog(this, "Login was successful!");
                     resetFields();
-                    setVisible(false);
+//                    setVisible(false);
+                    
                     new room_reserve_form().setVisible(true);
 
                 } else {
