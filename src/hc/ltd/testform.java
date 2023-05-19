@@ -36,7 +36,6 @@ public class testform extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         roomNoCombo = new javax.swing.JComboBox<>();
         roomTypeTF = new javax.swing.JTextField();
-        setBtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -62,13 +61,6 @@ public class testform extends javax.swing.JFrame {
             }
         });
 
-        setBtn.setText("SET");
-        setBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                setBtnActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -81,10 +73,6 @@ public class testform extends javax.swing.JFrame {
                     .addComponent(roomNoCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(roomTypeTF, javax.swing.GroupLayout.PREFERRED_SIZE, 238, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(151, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(setBtn)
-                .addGap(109, 109, 109))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(96, 96, 96)
@@ -100,9 +88,7 @@ public class testform extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(roomTypeTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(68, 68, 68)
-                .addComponent(setBtn)
-                .addContainerGap(131, Short.MAX_VALUE))
+                .addContainerGap(227, Short.MAX_VALUE))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(86, 86, 86)
@@ -120,10 +106,6 @@ public class testform extends javax.swing.JFrame {
     private void roomTypeTFFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_roomTypeTFFocusGained
 
     }//GEN-LAST:event_roomTypeTFFocusGained
-
-    private void setBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_setBtnActionPerformed
-
-    }//GEN-LAST:event_setBtnActionPerformed
 
     private void roomNoComboItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_roomNoComboItemStateChanged
         String room_number = roomNoCombo.getSelectedItem().toString();
@@ -202,6 +184,5 @@ public class testform extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JComboBox<String> roomNoCombo;
     private javax.swing.JTextField roomTypeTF;
-    private javax.swing.JButton setBtn;
     // End of variables declaration//GEN-END:variables
 }
