@@ -31,8 +31,8 @@
                       <Component id="jScrollPane2" max="32767" attributes="0"/>
                       <EmptySpace min="-2" pref="78" max="-2" attributes="0"/>
                   </Group>
-                  <Group type="102" alignment="0" attributes="0">
-                      <Group type="103" groupAlignment="1" attributes="0">
+                  <Group type="102" attributes="0">
+                      <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="jLabel1" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Group type="102" alignment="0" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
@@ -52,7 +52,6 @@
                               </Group>
                               <EmptySpace min="-2" pref="142" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                                  <Component id="noofdaysTF" alignment="1" max="32767" attributes="0"/>
                                   <Component id="amtTF" alignment="1" max="32767" attributes="0"/>
                                   <Component id="idTF" alignment="1" max="32767" attributes="0"/>
                                   <Component id="phoneTF" alignment="1" max="32767" attributes="0"/>
@@ -65,6 +64,7 @@
                                   </Group>
                                   <Component id="roomNoCombo" max="32767" attributes="0"/>
                                   <Component id="roomTypeTF" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="spinner" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                       </Group>
@@ -102,12 +102,12 @@
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jLabel6" alignment="3" min="-2" pref="35" max="-2" attributes="0"/>
-                  <Component id="roomTypeTF" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="roomTypeTF" alignment="3" min="-2" pref="35" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jLabel9" alignment="3" min="-2" pref="35" max="-2" attributes="0"/>
-                  <Component id="noofdaysTF" alignment="3" min="-2" pref="35" max="-2" attributes="0"/>
+                  <Component id="spinner" alignment="3" min="-2" pref="44" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
@@ -128,7 +128,7 @@
               <Component id="refresh" min="-2" pref="55" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="jScrollPane2" min="-2" pref="316" max="-2" attributes="0"/>
-              <EmptySpace pref="93" max="32767" attributes="0"/>
+              <EmptySpace pref="85" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -227,19 +227,6 @@
       <AccessibilityProperties>
         <Property name="AccessibleContext.accessibleDescription" type="java.lang.String" value=""/>
       </AccessibilityProperties>
-    </Component>
-    <Component class="javax.swing.JTextField" name="noofdaysTF">
-      <Properties>
-        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Liberation Sans" size="18" style="1"/>
-        </Property>
-      </Properties>
-      <AccessibilityProperties>
-        <Property name="AccessibleContext.accessibleDescription" type="java.lang.String" value=""/>
-      </AccessibilityProperties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="noofdaysTFActionPerformed"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="amtTF">
       <Properties>
@@ -405,7 +392,9 @@
           <Font name="Liberation Sans" size="18" style="1"/>
         </Property>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-          <StringArray count="0"/>
+          <StringArray count="1">
+            <StringItem index="0" value="SELECT ROOM"/>
+          </StringArray>
         </Property>
       </Properties>
       <Events>
@@ -425,6 +414,29 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="roomTypeTF">
+      <Properties>
+        <Property name="editable" type="boolean" value="false"/>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Liberation Sans" size="18" style="1"/>
+        </Property>
+      </Properties>
+      <Events>
+        <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="roomTypeTFFocusGained"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="roomTypeTFActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JSpinner" name="spinner">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Liberation Sans" size="18" style="1"/>
+        </Property>
+        <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
+          <SpinnerModel initial="1" minimum="1" numberType="java.lang.Integer" stepSize="1" type="number"/>
+        </Property>
+      </Properties>
+      <Events>
+        <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="spinnerStateChanged"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

@@ -38,7 +38,9 @@ public class room_reserve_form extends javax.swing.JFrame {
             PreparedStatement stmt = conn.prepareStatement(sql);
             ResultSet result = stmt.executeQuery(sql);
             while (result.next()) {
-                roomNoCombo.addItem("R " + result.getString("room_no"));
+                if (result.getInt("room_state") == 0) {
+                    roomNoCombo.addItem(result.getString("room_no"));
+                }
             }
         } catch (Exception e) {
             System.out.println(e);
@@ -65,7 +67,6 @@ public class room_reserve_form extends javax.swing.JFrame {
         nameTF = new javax.swing.JTextField();
         phoneTF = new javax.swing.JTextField();
         idTF = new javax.swing.JTextField();
-        noofdaysTF = new javax.swing.JTextField();
         amtTF = new javax.swing.JTextField();
         paymentCombo = new javax.swing.JComboBox<>();
         bookBtn = new javax.swing.JButton();
@@ -76,6 +77,7 @@ public class room_reserve_form extends javax.swing.JFrame {
         roomNoCombo = new javax.swing.JComboBox<>();
         jLabel7 = new javax.swing.JLabel();
         roomTypeTF = new javax.swing.JTextField();
+        spinner = new javax.swing.JSpinner();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Room Reserve");
@@ -109,13 +111,6 @@ public class room_reserve_form extends javax.swing.JFrame {
         phoneTF.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
 
         idTF.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
-
-        noofdaysTF.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
-        noofdaysTF.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                noofdaysTFActionPerformed(evt);
-            }
-        });
 
         amtTF.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
 
@@ -170,6 +165,7 @@ public class room_reserve_form extends javax.swing.JFrame {
         checkoutBtn.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
 
         roomNoCombo.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
+        roomNoCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SELECT ROOM" }));
         roomNoCombo.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 roomNoComboItemStateChanged(evt);
@@ -184,6 +180,27 @@ public class room_reserve_form extends javax.swing.JFrame {
         jLabel7.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
         jLabel7.setText("Room No");
 
+        roomTypeTF.setEditable(false);
+        roomTypeTF.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
+        roomTypeTF.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                roomTypeTFFocusGained(evt);
+            }
+        });
+        roomTypeTF.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                roomTypeTFActionPerformed(evt);
+            }
+        });
+
+        spinner.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
+        spinner.setModel(new javax.swing.SpinnerNumberModel(1, 1, null, 1));
+        spinner.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                spinnerStateChanged(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -195,9 +212,9 @@ public class room_reserve_form extends javax.swing.JFrame {
                         .addComponent(jScrollPane2)
                         .addGap(78, 78, 78))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
+                            .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                         .addComponent(refresh, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -212,7 +229,6 @@ public class room_reserve_form extends javax.swing.JFrame {
                                     .addComponent(jLabel7))
                                 .addGap(142, 142, 142)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(noofdaysTF)
                                     .addComponent(amtTF)
                                     .addComponent(idTF)
                                     .addComponent(phoneTF)
@@ -223,7 +239,8 @@ public class room_reserve_form extends javax.swing.JFrame {
                                         .addGap(88, 88, 88)
                                         .addComponent(checkoutBtn))
                                     .addComponent(roomNoCombo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(roomTypeTF, javax.swing.GroupLayout.Alignment.LEADING))))
+                                    .addComponent(roomTypeTF, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(spinner))))
                         .addGap(267, 650, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
@@ -250,11 +267,11 @@ public class room_reserve_form extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(roomTypeTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(roomTypeTF, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(noofdaysTF, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(spinner, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -271,13 +288,12 @@ public class room_reserve_form extends javax.swing.JFrame {
                 .addComponent(refresh, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 316, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(93, Short.MAX_VALUE))
+                .addContainerGap(85, Short.MAX_VALUE))
         );
 
         nameTF.getAccessibleContext().setAccessibleDescription("");
         phoneTF.getAccessibleContext().setAccessibleDescription("");
         idTF.getAccessibleContext().setAccessibleDescription("");
-        noofdaysTF.getAccessibleContext().setAccessibleDescription("");
         amtTF.getAccessibleContext().setAccessibleDescription("");
         paymentCombo.getAccessibleContext().setAccessibleDescription("");
 
@@ -331,10 +347,6 @@ public class room_reserve_form extends javax.swing.JFrame {
     }
 
 
-    private void noofdaysTFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_noofdaysTFActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_noofdaysTFActionPerformed
-
     private void bookBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bookBtnActionPerformed
 
         try {
@@ -347,7 +359,7 @@ public class room_reserve_form extends javax.swing.JFrame {
             stmt.setString(3, idTF.getText());
 //            stmt.setString(4, emailTF.getText());
 //            stmt.setObject(4, roomtypeCombo.getSelectedItem());
-            stmt.setString(5, noofdaysTF.getText());
+            //           stmt.setString(5, noofdaysTF.getText());
             stmt.setString(6, amtTF.getText());
             stmt.setObject(7, paymentCombo.getSelectedItem());
             stmt.executeUpdate();
@@ -369,19 +381,63 @@ public class room_reserve_form extends javax.swing.JFrame {
     }//GEN-LAST:event_roomNoComboActionPerformed
 
     private void roomNoComboItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_roomNoComboItemStateChanged
+        String room_number = roomNoCombo.getSelectedItem().toString();
+        spinner.setValue(1);
         try {
             Class.forName("com.mysql.jdbc.Driver");
             Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/HC_LTD", "root", "");
             String sql = "SELECT * FROM rooms WHERE room_no = ?";
             PreparedStatement stmt = conn.prepareStatement(sql);
-            ResultSet result = stmt.executeQuery(sql);
-            stmt.setString(1, result.getString("room_no"));
-            roomTypeTF.setText(result.getString("room_tyoe"));
+            stmt.setString(1, room_number);
+            ResultSet result = stmt.executeQuery();
+
+            if (result.next()) {
+                String roomType = result.getString("room_type");
+                roomTypeTF.setText(roomType);
+                String roomPrice = result.getString("room_price");
+                amtTF.setText(roomPrice);
+            }
 
         } catch (Exception e) {
-            System.out.print(e);
+            System.out.println(e);
         }
     }//GEN-LAST:event_roomNoComboItemStateChanged
+
+    private void roomTypeTFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_roomTypeTFActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_roomTypeTFActionPerformed
+
+    private void roomTypeTFFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_roomTypeTFFocusGained
+
+    }//GEN-LAST:event_roomTypeTFFocusGained
+
+    private void spinnerStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_spinnerStateChanged
+
+        String room_number = roomNoCombo.getSelectedItem().toString();
+
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/HC_LTD", "root", "");
+            String sql = "SELECT * FROM rooms WHERE room_no = ?";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setString(1, room_number);
+            ResultSet result = stmt.executeQuery();
+
+            if (result.next()) {
+
+                String roomPrice = result.getString("room_price");
+                int baseValue = Integer.parseInt(roomPrice);
+                int days = Integer.parseInt(spinner.getValue().toString());
+                int due = baseValue * days;
+                amtTF.setText(String.valueOf(due));
+            }
+
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+
+
+    }//GEN-LAST:event_spinnerStateChanged
 
     /**
      * @param args the command line arguments
@@ -413,7 +469,9 @@ public class room_reserve_form extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
+
                 new room_reserve_form().setVisible(true);
+
             }
         });
     }
@@ -435,11 +493,11 @@ public class room_reserve_form extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextField nameTF;
-    private javax.swing.JTextField noofdaysTF;
     private javax.swing.JComboBox<String> paymentCombo;
     private javax.swing.JTextField phoneTF;
     private javax.swing.JButton refresh;
     private javax.swing.JComboBox<String> roomNoCombo;
     private javax.swing.JTextField roomTypeTF;
+    private javax.swing.JSpinner spinner;
     // End of variables declaration//GEN-END:variables
 }
