@@ -4,6 +4,7 @@
  */
 package hc.ltd;
 
+import java.awt.Color;
 import java.beans.Statement;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -31,14 +32,17 @@ public class room_reserve_form extends javax.swing.JFrame {
     }
 
     private void updateCombo() {
+        roomNoCombo.removeAllItems();
         try {
             Class.forName("com.mysql.jdbc.Driver");
             Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/HC_LTD", "root", "");
             String sql = "SELECT * FROM rooms";
             PreparedStatement stmt = conn.prepareStatement(sql);
             ResultSet result = stmt.executeQuery(sql);
+            
             while (result.next()) {
                 if (result.getInt("room_state") == 0) {
+                    
                     roomNoCombo.addItem(result.getString("room_no"));
                 }
             }
@@ -56,7 +60,7 @@ public class room_reserve_form extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
@@ -78,12 +82,21 @@ public class room_reserve_form extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         roomTypeTF = new javax.swing.JTextField();
         spinner = new javax.swing.JSpinner();
+        jPanel3 = new javax.swing.JPanel();
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Room Reserve");
-
-        jLabel1.setFont(new java.awt.Font("Liberation Sans", 1, 24)); // NOI18N
-        jLabel1.setText("Reserve Room");
 
         jLabel2.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
         jLabel2.setText("Customer Name");
@@ -112,6 +125,7 @@ public class room_reserve_form extends javax.swing.JFrame {
 
         idTF.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
 
+        amtTF.setEditable(false);
         amtTF.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
 
         paymentCombo.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
@@ -136,17 +150,26 @@ public class room_reserve_form extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Name", "Phone", "Id Number", "Email", "Room Type", "No Of Days", "Amount", "Payment Method"
+                "Name", "Phone", "Id Number", "Room No", "Room Type", "No Of Days", "Amount", "Payment Method"
             }
         ));
-        display_table.setCellSelectionEnabled(true);
+        display_table.setColumnSelectionAllowed(false);
+        display_table.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         display_table.setRowHeight(35);
         display_table.setRowMargin(5);
         display_table.setSelectionBackground(new java.awt.Color(0, 255, 255));
         display_table.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         display_table.setShowGrid(false);
         display_table.setShowHorizontalLines(true);
+        display_table.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                display_tableMouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(display_table);
+        if (display_table.getColumnModel().getColumnCount() > 0) {
+            display_table.getColumnModel().getColumn(3).setPreferredWidth(40);
+        }
 
         refresh.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/refresh-button.png"))); // NOI18N
         refresh.setText("REFRESH");
@@ -165,7 +188,6 @@ public class room_reserve_form extends javax.swing.JFrame {
         checkoutBtn.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
 
         roomNoCombo.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
-        roomNoCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SELECT ROOM" }));
         roomNoCombo.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 roomNoComboItemStateChanged(evt);
@@ -201,6 +223,19 @@ public class room_reserve_form extends javax.swing.JFrame {
             }
         });
 
+        jPanel3.setBackground(new java.awt.Color(204, 255, 204));
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 919, Short.MAX_VALUE)
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 490, Short.MAX_VALUE)
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -209,86 +244,96 @@ public class room_reserve_form extends javax.swing.JFrame {
                 .addGap(55, 55, 55)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane2)
-                        .addGap(78, 78, 78))
-                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
+                            .addComponent(jScrollPane2)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addComponent(refresh, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel2)
+                                    .addComponent(refresh, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(layout.createSequentialGroup()
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel9)
-                                            .addComponent(jLabel2)
-                                            .addComponent(jLabel6)
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addComponent(roomNoCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(21, 21, 21)
+                                                .addComponent(roomTypeTF, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addComponent(bookBtn)
+                                                .addGap(88, 88, 88)
+                                                .addComponent(checkoutBtn))
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addComponent(jLabel9)
+                                                .addGap(102, 102, 102)
+                                                .addComponent(jLabel10))
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addComponent(spinner, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(21, 21, 21)
+                                                .addComponent(amtTF, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addComponent(jLabel8)
+                                            .addComponent(paymentCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 263, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(nameTF, javax.swing.GroupLayout.PREFERRED_SIZE, 413, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addComponent(jLabel3)
-                                            .addComponent(jLabel4)
-                                            .addComponent(jLabel10)
-                                            .addComponent(jLabel8)))
-                                    .addComponent(jLabel7))
-                                .addGap(142, 142, 142)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(amtTF)
-                                    .addComponent(idTF)
-                                    .addComponent(phoneTF)
-                                    .addComponent(nameTF)
-                                    .addComponent(paymentCombo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                        .addComponent(bookBtn)
-                                        .addGap(88, 88, 88)
-                                        .addComponent(checkoutBtn))
-                                    .addComponent(roomNoCombo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(roomTypeTF, javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(spinner))))
-                        .addGap(267, 650, Short.MAX_VALUE))))
+                                            .addComponent(phoneTF, javax.swing.GroupLayout.PREFERRED_SIZE, 413, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGap(100, 100, 100)
+                                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(0, 15, Short.MAX_VALUE)))
+                        .addGap(57, 57, 57))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel7)
+                                .addGap(116, 116, 116)
+                                .addComponent(jLabel6))
+                            .addComponent(idTF, javax.swing.GroupLayout.PREFERRED_SIZE, 413, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel4))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(18, 18, 18)
-                .addComponent(jLabel1)
-                .addGap(45, 45, 45)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(nameTF, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(phoneTF, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(idTF, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(24, 24, 24)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(roomNoCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(roomTypeTF, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(spinner, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(amtTF, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(paymentCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(checkoutBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(bookBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(25, 25, 25)
+                .addGap(26, 26, 26)
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(6, 6, 6)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(nameTF, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(6, 6, 6)
+                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(6, 6, 6)
+                        .addComponent(phoneTF, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(6, 6, 6)
+                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(7, 7, 7)
+                        .addComponent(idTF, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(6, 6, 6)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(6, 6, 6)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(roomNoCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(roomTypeTF, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(6, 6, 6)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(6, 6, 6)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(spinner, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(amtTF, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(6, 6, 6)
+                        .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(6, 6, 6)
+                        .addComponent(paymentCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(bookBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(checkoutBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(10, 10, 10)
                 .addComponent(refresh, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 316, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(85, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         nameTF.getAccessibleContext().setAccessibleDescription("");
@@ -312,7 +357,7 @@ public class room_reserve_form extends javax.swing.JFrame {
 
             Bookings booking;
             while (result.next()) {
-                booking = new Bookings(result.getString("name"), result.getString("phone"), result.getString("id_no"), result.getString("email"), result.getString("room_type"), result.getString("no_of_days"), result.getString("amount"), result.getString("payment_method"));
+                booking = new Bookings(result.getString("name"), result.getString("phone"), result.getString("id_no"), result.getString("room_no"), result.getString("room_type"), result.getString("no_of_days"), result.getString("amount"), result.getString("payment_method"));
                 bookings.add(booking);
 
             }
@@ -352,19 +397,27 @@ public class room_reserve_form extends javax.swing.JFrame {
         try {
             Class.forName("com.mysql.jdbc.Driver");
             Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/HC_LTD", "root", "");
-            String sql = "INSERT INTO bookings (name, phone, id_no, room_type, no_of_days, amount, payment_method) VALUES (?, ?, ?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO bookings (name, phone, id_no, room_no, room_type, no_of_days, amount, payment_method) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement stmt = conn.prepareStatement(sql);
             stmt.setString(1, nameTF.getText());
             stmt.setString(2, phoneTF.getText());
             stmt.setString(3, idTF.getText());
-//            stmt.setString(4, emailTF.getText());
-//            stmt.setObject(4, roomtypeCombo.getSelectedItem());
-            //           stmt.setString(5, noofdaysTF.getText());
-            stmt.setString(6, amtTF.getText());
-            stmt.setObject(7, paymentCombo.getSelectedItem());
+            stmt.setObject(4, roomNoCombo.getSelectedItem());
+            stmt.setString(5, roomTypeTF.getText());
+            stmt.setObject(6, spinner.getValue());
+            stmt.setString(7, amtTF.getText());
+            stmt.setObject(8, paymentCombo.getSelectedItem());
             stmt.executeUpdate();
 
+            //UPDATING THE ROOM STATUS UPON MAKING RESERVATION
+            String updateStatus = "UPDATE rooms SET room_state = ? WHERE room_no = ?";
+            PreparedStatement updateStmt = conn.prepareStatement(updateStatus);
+            updateStmt.setInt(1, 1);
+            updateStmt.setObject(2, roomNoCombo.getSelectedItem());
+            updateStmt.executeUpdate();
+
             JOptionPane.showMessageDialog(this, "BOOKING SUCCESSFUL!");
+            updateCombo();
 
         } catch (Exception e) {
             System.out.print(e);
@@ -430,6 +483,7 @@ public class room_reserve_form extends javax.swing.JFrame {
                 int days = Integer.parseInt(spinner.getValue().toString());
                 int due = baseValue * days;
                 amtTF.setText(String.valueOf(due));
+
             }
 
         } catch (Exception e) {
@@ -438,6 +492,41 @@ public class room_reserve_form extends javax.swing.JFrame {
 
 
     }//GEN-LAST:event_spinnerStateChanged
+
+    private void display_tableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_display_tableMouseClicked
+        int row = display_table.getSelectedRow();
+        DefaultTableModel model = (DefaultTableModel) display_table.getModel();
+//
+//        nameLabel.setText(model.getValueAt(row, 0).toString());
+//        nameTF.setBackground(Color.red);
+//        phoneTF.setText(model.getValueAt(row, 1).toString());
+//        idTF.setText(model.getValueAt(row, 2).toString());
+//        roomNoCombo.setSelectedItem(model.getValueAt(row, 3).toString());
+//        roomTypeTF.setText(model.getValueAt(row, 4).toString());
+//        spinner.setValue(model.getValueAt(row, 5).toString());
+//        amtTF.setText(model.getValueAt(row, 6).toString());
+//        paymentCombo.setSelectedItem(model.getValueAt(row, 7).toString());
+
+    try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/HC_LTD", "root", "");
+           
+            //UPDATING THE ROOM STATUS UPON MAKING RESERVATION
+            String updateStatus = "UPDATE rooms SET room_state = ? WHERE room_no = ?";
+            PreparedStatement updateStmt = conn.prepareStatement(updateStatus);
+            updateStmt.setInt(1, 0);
+            updateStmt.setObject(2, model.getValueAt(row, 3).toString());
+            updateStmt.executeUpdate();
+
+            JOptionPane.showMessageDialog(this, "CHECKED OUT!");
+            updateCombo();
+
+        } catch (Exception e) {
+            System.out.print(e);
+        }
+
+
+    }//GEN-LAST:event_display_tableMouseClicked
 
     /**
      * @param args the command line arguments
@@ -482,7 +571,6 @@ public class room_reserve_form extends javax.swing.JFrame {
     private javax.swing.JButton checkoutBtn;
     private javax.swing.JTable display_table;
     private javax.swing.JTextField idTF;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -491,6 +579,8 @@ public class room_reserve_form extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextField nameTF;
     private javax.swing.JComboBox<String> paymentCombo;
