@@ -146,11 +146,18 @@ public class login_form extends javax.swing.JFrame {
             } else {
 
                 if (result.next()) {
+                    String role = result.getString("role");
                     JOptionPane.showMessageDialog(this, "Login was successful!");
+                    if (role.equals("EMPLOYEE")) {
+                        new room_reserve_form().setVisible(true);
+
+                    } else if(role.equals("ADMIN")) {
+                        new admin_panel().setVisible(true);
+                    }
                     resetFields();
 //                    setVisible(false);
-                    
-                    new room_reserve_form().setVisible(true);
+//                    dispose();
+            System.out.print(role);
 
                 } else {
                     JOptionPane.showMessageDialog(this, "Incorrect credentials!");

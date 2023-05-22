@@ -30,9 +30,14 @@ public class room_reserve_form extends javax.swing.JFrame {
         updateCombo();
 
     }
-
+private void reset(){
+    nameTF.setText("");
+    phoneTF.setText("");
+    idTF.setText("");
+    
+}
     private void updateCombo() {
-        roomNoCombo.removeAllItems();
+        roomNoCombo.removeAllItems();//problem
         try {
             Class.forName("com.mysql.jdbc.Driver");
             Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/HC_LTD", "root", "");
@@ -418,6 +423,7 @@ public class room_reserve_form extends javax.swing.JFrame {
 
             JOptionPane.showMessageDialog(this, "BOOKING SUCCESSFUL!");
             updateCombo();
+            reset();
 
         } catch (Exception e) {
             System.out.print(e);

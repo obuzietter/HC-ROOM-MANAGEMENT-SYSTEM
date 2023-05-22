@@ -23,8 +23,6 @@ public class splash_p extends javax.swing.JFrame {
     public splash_p() {
         initComponents();
 
-//         p = new progressThread(progress);
-//        p.start();
     }
 
   
