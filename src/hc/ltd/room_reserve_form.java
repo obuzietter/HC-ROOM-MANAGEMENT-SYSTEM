@@ -158,7 +158,6 @@ private void reset(){
                 "Name", "Phone", "Id Number", "Room No", "Room Type", "No Of Days", "Amount", "Payment Method"
             }
         ));
-        display_table.setColumnSelectionAllowed(false);
         display_table.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         display_table.setRowHeight(35);
         display_table.setRowMargin(5);

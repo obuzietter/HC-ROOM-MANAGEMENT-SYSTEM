@@ -37,8 +37,11 @@ public class splash_p extends javax.swing.JFrame {
     private void initComponents() {
 
         progress = new javax.swing.JProgressBar();
-        jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
+        bar = new javax.swing.JProgressBar();
+        percent = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
 
         progress.setBackground(new java.awt.Color(255, 255, 255));
         progress.setBorder(null);
@@ -47,33 +50,59 @@ public class splash_p extends javax.swing.JFrame {
         setTitle("  ");
         setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/logo.png"))); // NOI18N
-
         jLabel2.setFont(new java.awt.Font("Noto Sans Mono", 1, 18)); // NOI18N
         jLabel2.setText("Please Wait ...");
+
+        bar.setForeground(new java.awt.Color(0, 0, 255));
+        bar.setBorder(null);
+
+        percent.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
+        percent.setText("0%");
+
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/hotel (1).png"))); // NOI18N
+        jLabel3.setMinimumSize(new java.awt.Dimension(256, 256));
+
+        jLabel1.setFont(new java.awt.Font("Mandali", 1, 24)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 51, 51));
+        jLabel1.setText("H A P P Y  C H O I C E");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(bar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(208, 208, 208)
+                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(334, 334, 334)
+                        .addComponent(percent)))
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(199, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 169, Short.MAX_VALUE)
                         .addComponent(jLabel2)
-                        .addGap(172, 172, 172))))
+                        .addGap(226, 226, 226))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(184, 184, 184))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(23, 23, 23)
+                .addContainerGap(42, Short.MAX_VALUE)
                 .addComponent(jLabel1)
-                .addGap(33, 33, 33)
+                .addGap(12, 12, 12)
+                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(44, 44, 44)
                 .addComponent(jLabel2)
-                .addContainerGap(41, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(bar, javax.swing.GroupLayout.PREFERRED_SIZE, 5, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(12, 12, 12)
+                .addComponent(percent))
         );
 
         pack();
@@ -106,18 +135,35 @@ public class splash_p extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(splash_p.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-
+splash_p splash = new splash_p();
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new splash_p().setVisible(true);
+                splash.setVisible(true);
             }
         });
+        
+        login_form login = new login_form();
+        try{
+            
+            for (int i=0; i<100; i++){
+                Thread.sleep(50);
+                splash.bar.setValue(i);
+                splash.percent.setText(Integer.toString(i)+"%");
+            }
+        }catch(Exception e){
+            
+        }
+        splash.dispose();
+        login.setVisible(true);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JProgressBar bar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel percent;
     private javax.swing.JProgressBar progress;
     // End of variables declaration//GEN-END:variables
 }
