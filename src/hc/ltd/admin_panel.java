@@ -28,11 +28,58 @@ public class admin_panel extends javax.swing.JFrame {
 
         jTabbedPane2 = new javax.swing.JTabbedPane();
         jPanel4 = new javax.swing.JPanel();
+        jTabbedPane1 = new javax.swing.JTabbedPane();
+        jPanel1 = new javax.swing.JPanel();
+        jLabel12 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        fullnameTF1 = new javax.swing.JTextField();
+        usernameTF1 = new javax.swing.JTextField();
+        jLabel15 = new javax.swing.JLabel();
+        pwdTF1 = new javax.swing.JPasswordField();
+        jLabel16 = new javax.swing.JLabel();
+        cpwdTF1 = new javax.swing.JPasswordField();
+        jLabel13 = new javax.swing.JLabel();
+        idnoTF1 = new javax.swing.JTextField();
+        jLabel18 = new javax.swing.JLabel();
+        emailTF1 = new javax.swing.JTextField();
+        jLabel17 = new javax.swing.JLabel();
+        roleCombo1 = new javax.swing.JComboBox<>();
+        jLabel14 = new javax.swing.JLabel();
+        residenceTF1 = new javax.swing.JTextField();
+        saveBtn1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTable2 = new javax.swing.JTable();
+        jPanel2 = new javax.swing.JPanel();
+        jLabel20 = new javax.swing.JLabel();
+        jLabel21 = new javax.swing.JLabel();
+        jLabel23 = new javax.swing.JLabel();
+        jLabel24 = new javax.swing.JLabel();
+        jLabel25 = new javax.swing.JLabel();
+        saveBtn2 = new javax.swing.JButton();
+        emailTF2 = new javax.swing.JTextField();
+        idnoTF2 = new javax.swing.JTextField();
+        usernameTF2 = new javax.swing.JTextField();
+        fullnameTF2 = new javax.swing.JTextField();
+        idnoTF3 = new javax.swing.JTextField();
+        saveBtn3 = new javax.swing.JButton();
         jTextField1 = new javax.swing.JTextField();
+        jButton1 = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
         jPanel5 = new javax.swing.JPanel();
-        jLabel5 = new javax.swing.JLabel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        rooms_display = new javax.swing.JTable();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        roomTypeCombo = new javax.swing.JComboBox<>();
+        roomNoTF = new javax.swing.JTextField();
+        roomPriceTF = new javax.swing.JTextField();
+        createRoomBtn = new javax.swing.JButton();
+        deleteBtn = new javax.swing.JButton();
+        showBtn = new javax.swing.JButton();
         jPanel6 = new javax.swing.JPanel();
-        jLabel4 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("ADMIN PANEL");
@@ -40,71 +87,384 @@ public class admin_panel extends javax.swing.JFrame {
         jTabbedPane2.setToolTipText("");
         jTabbedPane2.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
 
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel12.setFont(new java.awt.Font("Liberation Sans", 1, 16)); // NOI18N
+        jLabel12.setText("Full Name");
+        jPanel1.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(19, 26, -1, -1));
+
+        jLabel2.setFont(new java.awt.Font("Liberation Sans", 1, 16)); // NOI18N
+        jLabel2.setText("Username");
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(19, 63, -1, -1));
+
+        fullnameTF1.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
+        fullnameTF1.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                fullnameTF1FocusLost(evt);
+            }
+        });
+        fullnameTF1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                fullnameTF1ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(fullnameTF1, new org.netbeans.lib.awtextra.AbsoluteConstraints(165, 20, 400, 25));
+
+        usernameTF1.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
+        usernameTF1.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                usernameTF1FocusLost(evt);
+            }
+        });
+        jPanel1.add(usernameTF1, new org.netbeans.lib.awtextra.AbsoluteConstraints(165, 57, 400, 25));
+
+        jLabel15.setFont(new java.awt.Font("Liberation Sans", 1, 16)); // NOI18N
+        jLabel15.setText("Password");
+        jPanel1.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 100, -1, -1));
+
+        pwdTF1.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
+        jPanel1.add(pwdTF1, new org.netbeans.lib.awtextra.AbsoluteConstraints(165, 100, 400, 25));
+
+        jLabel16.setFont(new java.awt.Font("Liberation Sans", 1, 16)); // NOI18N
+        jLabel16.setText("Confirm Password");
+        jPanel1.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 141, -1, -1));
+
+        cpwdTF1.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
+        jPanel1.add(cpwdTF1, new org.netbeans.lib.awtextra.AbsoluteConstraints(168, 137, 400, 25));
+
+        jLabel13.setFont(new java.awt.Font("Liberation Sans", 1, 16)); // NOI18N
+        jLabel13.setText("ID Number");
+        jPanel1.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 184, -1, -1));
+
+        idnoTF1.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
+        jPanel1.add(idnoTF1, new org.netbeans.lib.awtextra.AbsoluteConstraints(168, 180, 400, 25));
+
+        jLabel18.setFont(new java.awt.Font("Liberation Sans", 1, 16)); // NOI18N
+        jLabel18.setText("Email");
+        jPanel1.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 217, -1, -1));
+
+        emailTF1.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
+        jPanel1.add(emailTF1, new org.netbeans.lib.awtextra.AbsoluteConstraints(168, 211, 400, 25));
+
+        jLabel17.setFont(new java.awt.Font("Liberation Sans", 1, 16)); // NOI18N
+        jLabel17.setText("Role");
+        jPanel1.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 254, -1, -1));
+
+        roleCombo1.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
+        roleCombo1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SELECT ROLE", "EMPLOYEE", "ADMIN" }));
+        jPanel1.add(roleCombo1, new org.netbeans.lib.awtextra.AbsoluteConstraints(168, 248, 400, 25));
+
+        jLabel14.setFont(new java.awt.Font("Liberation Sans", 1, 16)); // NOI18N
+        jLabel14.setText("Residence");
+        jPanel1.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 295, -1, -1));
+
+        residenceTF1.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
+        residenceTF1.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                residenceTF1FocusLost(evt);
+            }
+        });
+        jPanel1.add(residenceTF1, new org.netbeans.lib.awtextra.AbsoluteConstraints(168, 291, 400, 25));
+
+        saveBtn1.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
+        saveBtn1.setText("ADD & NEW");
+        saveBtn1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                saveBtn1ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(saveBtn1, new org.netbeans.lib.awtextra.AbsoluteConstraints(168, 334, 400, -1));
+
+        jButton2.setText("SHOW USERS");
+        jPanel1.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(272, 446, -1, 137));
+
+        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane2.setViewportView(jTable2);
+
+        jPanel1.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(656, 21, 870, 560));
+
+        jTabbedPane1.addTab("CREATE USER", jPanel1);
+
+        jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel20.setFont(new java.awt.Font("Liberation Sans", 1, 16)); // NOI18N
+        jLabel20.setText("Username");
+        jPanel2.add(jLabel20, new org.netbeans.lib.awtextra.AbsoluteConstraints(24, 118, -1, -1));
+
+        jLabel21.setFont(new java.awt.Font("Liberation Sans", 1, 16)); // NOI18N
+        jLabel21.setText("Full Name");
+        jPanel2.add(jLabel21, new org.netbeans.lib.awtextra.AbsoluteConstraints(24, 77, -1, -1));
+
+        jLabel23.setFont(new java.awt.Font("Liberation Sans", 1, 16)); // NOI18N
+        jLabel23.setText("ID Number");
+        jPanel2.add(jLabel23, new org.netbeans.lib.awtextra.AbsoluteConstraints(24, 155, -1, -1));
+
+        jLabel24.setFont(new java.awt.Font("Liberation Sans", 1, 16)); // NOI18N
+        jLabel24.setText("Email");
+        jPanel2.add(jLabel24, new org.netbeans.lib.awtextra.AbsoluteConstraints(25, 192, -1, -1));
+
+        jLabel25.setFont(new java.awt.Font("Liberation Sans", 1, 16)); // NOI18N
+        jLabel25.setText("Role");
+        jPanel2.add(jLabel25, new org.netbeans.lib.awtextra.AbsoluteConstraints(25, 229, -1, -1));
+
+        saveBtn2.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
+        saveBtn2.setText("SAVE");
+        saveBtn2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                saveBtn2ActionPerformed(evt);
+            }
+        });
+        jPanel2.add(saveBtn2, new org.netbeans.lib.awtextra.AbsoluteConstraints(231, 278, 126, -1));
+
+        emailTF2.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
+        jPanel2.add(emailTF2, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 188, 400, 25));
+
+        idnoTF2.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
+        jPanel2.add(idnoTF2, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 151, 400, 25));
+
+        usernameTF2.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
+        usernameTF2.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                usernameTF2FocusLost(evt);
+            }
+        });
+        jPanel2.add(usernameTF2, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 114, 400, 25));
+
+        fullnameTF2.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
+        fullnameTF2.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                fullnameTF2FocusLost(evt);
+            }
+        });
+        fullnameTF2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                fullnameTF2ActionPerformed(evt);
+            }
+        });
+        jPanel2.add(fullnameTF2, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 77, 400, 25));
+
+        idnoTF3.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
+        jPanel2.add(idnoTF3, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 225, 400, 25));
+
+        saveBtn3.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
+        saveBtn3.setText("DELETE");
+        saveBtn3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                saveBtn3ActionPerformed(evt);
+            }
+        });
+        jPanel2.add(saveBtn3, new org.netbeans.lib.awtextra.AbsoluteConstraints(384, 278, 126, -1));
+
+        jTextField1.setFont(new java.awt.Font("Lato Thin", 2, 15)); // NOI18N
+        jTextField1.setText("ENTER USERNAME TO SEARCH");
         jTextField1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField1ActionPerformed(evt);
             }
         });
+        jPanel2.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 18, 299, 41));
+
+        jButton1.setText("SEARCH");
+        jPanel2.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(475, 18, -1, 41));
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(jTable1);
+
+        jPanel2.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 20, 930, 300));
+
+        jTabbedPane1.addTab("MODIFY", jPanel2);
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGap(338, 338, 338)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(595, Short.MAX_VALUE))
+            .addComponent(jTabbedPane1)
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGap(147, 147, 147)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(331, Short.MAX_VALUE))
+                .addComponent(jTabbedPane1)
+                .addContainerGap())
         );
 
         jTabbedPane2.addTab("USERS", jPanel4);
 
-        jLabel5.setFont(new java.awt.Font("Liberation Sans", 1, 24)); // NOI18N
-        jLabel5.setText("TAB 2");
+        rooms_display.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "ROOM NO", "ROOM TYPE", "PRICE"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                true, true, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        rooms_display.setRowHeight(35);
+        jScrollPane3.setViewportView(rooms_display);
+
+        jLabel3.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
+        jLabel3.setText("ROOM NO");
+
+        jLabel6.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
+        jLabel6.setText("ROOM TYPE");
+
+        jLabel7.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
+        jLabel7.setText("ROOM PRICE");
+
+        roomTypeCombo.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
+        roomTypeCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SELECT ROOM TYPE", "STANDARD", "DELUXE" }));
+        roomTypeCombo.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                roomTypeComboItemStateChanged(evt);
+            }
+        });
+
+        roomNoTF.setFont(new java.awt.Font("Liberation Sans", 0, 18)); // NOI18N
+        roomNoTF.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                roomNoTFFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                roomNoTFFocusLost(evt);
+            }
+        });
+        roomNoTF.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                roomNoTFActionPerformed(evt);
+            }
+        });
+
+        roomPriceTF.setEditable(false);
+        roomPriceTF.setBackground(new java.awt.Color(204, 204, 204));
+        roomPriceTF.setFont(new java.awt.Font("Liberation Sans", 0, 18)); // NOI18N
+
+        createRoomBtn.setFont(new java.awt.Font("Liberation Sans", 1, 15)); // NOI18N
+        createRoomBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/check-in.png"))); // NOI18N
+        createRoomBtn.setText("SAVE & NEW");
+        createRoomBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                createRoomBtnActionPerformed(evt);
+            }
+        });
+
+        deleteBtn.setFont(new java.awt.Font("Liberation Sans", 1, 15)); // NOI18N
+        deleteBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/close.png"))); // NOI18N
+        deleteBtn.setText("DELETE");
+        deleteBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteBtnActionPerformed(evt);
+            }
+        });
+
+        showBtn.setFont(new java.awt.Font("Liberation Sans", 1, 15)); // NOI18N
+        showBtn.setText("SHOW ROOMS");
+        showBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                showBtnActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel5Layout.createSequentialGroup()
-                .addGap(513, 513, 513)
-                .addComponent(jLabel5)
-                .addContainerGap(419, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+                .addGap(38, 38, 38)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 858, Short.MAX_VALUE)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGap(37, 37, 37)
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel6)
+                            .addComponent(jLabel7))
+                        .addGap(48, 48, 48)
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel5Layout.createSequentialGroup()
+                                .addComponent(createRoomBtn)
+                                .addGap(18, 18, 18)
+                                .addComponent(deleteBtn))
+                            .addComponent(roomTypeCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(roomNoTF, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(roomPriceTF, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(108, 108, 108))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(showBtn)
+                        .addGap(247, 247, 247))))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
-                .addGap(248, 248, 248)
-                .addComponent(jLabel5)
-                .addContainerGap(230, Short.MAX_VALUE))
+                .addGap(55, 55, 55)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel3)
+                            .addComponent(roomNoTF, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel6)
+                            .addComponent(roomTypeCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel7)
+                            .addComponent(roomPriceTF, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(40, 40, 40)
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(deleteBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(createRoomBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addComponent(showBtn)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jScrollPane3))
+                .addGap(27, 27, 27))
         );
 
         jTabbedPane2.addTab("ROOMS", jPanel5);
-
-        jLabel4.setFont(new java.awt.Font("Liberation Sans", 1, 24)); // NOI18N
-        jLabel4.setText("TAB 3");
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel6Layout.createSequentialGroup()
-                .addGap(513, 513, 513)
-                .addComponent(jLabel4)
-                .addContainerGap(419, Short.MAX_VALUE))
+            .addGap(0, 1555, Short.MAX_VALUE)
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel6Layout.createSequentialGroup()
-                .addGap(248, 248, 248)
-                .addComponent(jLabel4)
-                .addContainerGap(230, Short.MAX_VALUE))
+            .addGap(0, 686, Short.MAX_VALUE)
         );
 
         jTabbedPane2.addTab("REPORTS", jPanel6);
@@ -129,9 +489,87 @@ public class admin_panel extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void fullnameTF1FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_fullnameTF1FocusLost
+        // TODO add your handling code here:
+    }//GEN-LAST:event_fullnameTF1FocusLost
+
+    private void fullnameTF1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fullnameTF1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_fullnameTF1ActionPerformed
+
+    private void residenceTF1FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_residenceTF1FocusLost
+        // TODO add your handling code here:
+    }//GEN-LAST:event_residenceTF1FocusLost
+
+    private void usernameTF1FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_usernameTF1FocusLost
+        // TODO add your handling code here:
+    }//GEN-LAST:event_usernameTF1FocusLost
+
+    private void saveBtn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveBtn1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_saveBtn1ActionPerformed
+
+    private void saveBtn2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveBtn2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_saveBtn2ActionPerformed
+
+    private void usernameTF2FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_usernameTF2FocusLost
+        // TODO add your handling code here:
+    }//GEN-LAST:event_usernameTF2FocusLost
+
+    private void fullnameTF2FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_fullnameTF2FocusLost
+        // TODO add your handling code here:
+    }//GEN-LAST:event_fullnameTF2FocusLost
+
+    private void fullnameTF2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fullnameTF2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_fullnameTF2ActionPerformed
+
+    private void saveBtn3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveBtn3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_saveBtn3ActionPerformed
+
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField1ActionPerformed
+
+    private void roomTypeComboItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_roomTypeComboItemStateChanged
+        String room_state = roomTypeCombo.getSelectedItem().toString();
+
+        if (room_state.equals("DELUXE")) {
+
+            roomPriceTF.setText("2000");
+
+        } else if (room_state.equals("STANDARD")) {
+            roomPriceTF.setText("1500");
+        } else {
+        }
+    }//GEN-LAST:event_roomTypeComboItemStateChanged
+
+    private void roomNoTFFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_roomNoTFFocusGained
+        
+    }//GEN-LAST:event_roomNoTFFocusGained
+
+    private void roomNoTFFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_roomNoTFFocusLost
+
+    }//GEN-LAST:event_roomNoTFFocusLost
+
+    private void roomNoTFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_roomNoTFActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_roomNoTFActionPerformed
+
+    private void createRoomBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createRoomBtnActionPerformed
+
+       
+    }//GEN-LAST:event_createRoomBtnActionPerformed
+
+    private void deleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteBtnActionPerformed
+       
+    }//GEN-LAST:event_deleteBtnActionPerformed
+
+    private void showBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showBtnActionPerformed
+        
+    }//GEN-LAST:event_showBtnActionPerformed
 
     /**
      * @param args the command line arguments
@@ -169,12 +607,59 @@ public class admin_panel extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
+    private javax.swing.JPasswordField cpwdTF1;
+    private javax.swing.JButton createRoomBtn;
+    private javax.swing.JButton deleteBtn;
+    private javax.swing.JTextField emailTF1;
+    private javax.swing.JTextField emailTF2;
+    private javax.swing.JTextField fullnameTF1;
+    private javax.swing.JTextField fullnameTF2;
+    private javax.swing.JTextField idnoTF1;
+    private javax.swing.JTextField idnoTF2;
+    private javax.swing.JTextField idnoTF3;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel20;
+    private javax.swing.JLabel jLabel21;
+    private javax.swing.JLabel jLabel23;
+    private javax.swing.JLabel jLabel24;
+    private javax.swing.JLabel jLabel25;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTabbedPane jTabbedPane2;
+    private javax.swing.JTable jTable1;
+    private javax.swing.JTable jTable2;
     private javax.swing.JTextField jTextField1;
+    private javax.swing.JPasswordField pwdTF1;
+    private javax.swing.JTextField residenceTF1;
+    private javax.swing.JComboBox<String> roleCombo1;
+    private javax.swing.JTextField roomNoTF;
+    private javax.swing.JTextField roomPriceTF;
+    private javax.swing.JComboBox<String> roomTypeCombo;
+    private javax.swing.JTable rooms_display;
+    private javax.swing.JButton saveBtn1;
+    private javax.swing.JButton saveBtn2;
+    private javax.swing.JButton saveBtn3;
+    private javax.swing.JButton showBtn;
+    private javax.swing.JTextField usernameTF1;
+    private javax.swing.JTextField usernameTF2;
     // End of variables declaration//GEN-END:variables
 }
