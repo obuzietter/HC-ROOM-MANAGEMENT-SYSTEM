@@ -158,7 +158,7 @@ public class login_form extends javax.swing.JFrame {
                     resetFields();
 //                    setVisible(false);
 //                    dispose();
-            System.out.print(role);
+            
 
                 } else {
                     JOptionPane.showMessageDialog(this, "Incorrect credentials!");
