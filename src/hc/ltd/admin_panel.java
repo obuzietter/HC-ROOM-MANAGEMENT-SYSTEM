@@ -7,6 +7,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Arrays;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
@@ -22,7 +23,7 @@ public class admin_panel extends javax.swing.JFrame {
      */
     public admin_panel() {
         initComponents();
-
+        loadUsersTable();
     }
 
     /**
@@ -54,7 +55,7 @@ public class admin_panel extends javax.swing.JFrame {
         roleCombo = new javax.swing.JComboBox<>();
         saveBtn = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        allUsersTable = new javax.swing.JTable();
         jPanel2 = new javax.swing.JPanel();
         jLabel20 = new javax.swing.JLabel();
         jLabel21 = new javax.swing.JLabel();
@@ -143,30 +144,27 @@ public class admin_panel extends javax.swing.JFrame {
             }
         });
 
-        jTable2.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        allUsersTable.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
+        allUsersTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "FULL NAME", "USERNAME", "ID NUMBER", "EMAIL", "ROLE"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
-        jTable2.setRowHeight(35);
-        jTable2.setSelectionBackground(new java.awt.Color(255, 0, 0));
-        jTable2.setSelectionForeground(new java.awt.Color(255, 255, 255));
-        jScrollPane2.setViewportView(jTable2);
+        allUsersTable.setRowHeight(35);
+        allUsersTable.setSelectionBackground(java.awt.Color.green);
+        allUsersTable.setSelectionForeground(new java.awt.Color(255, 255, 255));
+        jScrollPane2.setViewportView(allUsersTable);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -175,39 +173,29 @@ public class admin_panel extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(19, 19, 19)
+                        .addGap(17, 17, 17)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel12)
+                            .addComponent(jLabel16)
+                            .addComponent(jLabel15)
                             .addComponent(jLabel2)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(1, 1, 1)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel13)
-                                    .addComponent(jLabel18)
-                                    .addComponent(jLabel17)))
-                            .addComponent(jLabel15))
-                        .addGap(71, 71, 71))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel16)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(nameTF, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(unameTF, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(passTF, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel12)
+                            .addComponent(jLabel13)
+                            .addComponent(jLabel18)
+                            .addComponent(jLabel17))
+                        .addGap(23, 23, 23)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(emailTF)
+                            .addComponent(idTF)
+                            .addComponent(nameTF, javax.swing.GroupLayout.PREFERRED_SIZE, 362, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(unameTF, javax.swing.GroupLayout.PREFERRED_SIZE, 362, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(passTF, javax.swing.GroupLayout.PREFERRED_SIZE, 361, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cpassTF)
+                            .addComponent(roleCombo, 0, 364, Short.MAX_VALUE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(3, 3, 3)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(cpassTF, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(idTF, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(emailTF, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(roleCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(101, 101, 101)
-                                .addComponent(saveBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 825, Short.MAX_VALUE)
-                .addGap(12, 12, 12))
+                        .addGap(280, 280, 280)
+                        .addComponent(saveBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 815, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -215,39 +203,43 @@ public class admin_panel extends javax.swing.JFrame {
                 .addGap(20, 20, 20)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 660, Short.MAX_VALUE)
-                        .addGap(20, 20, 20))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(nameTF, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel12))
-                        .addGap(12, 12, 12)
+                            .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(unameTF, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel2))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(passTF, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel15))
-                        .addGap(12, 12, 12)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(passTF, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(cpassTF, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel16))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(idTF, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel13))
-                        .addGap(6, 6, 6)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(emailTF, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel18))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(3, 3, 3)
+                                .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(12, 12, 12)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(roleCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel17))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(4, 4, 4)
+                                .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(idTF, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(8, 8, 8)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(6, 6, 6)
+                                .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(emailTF, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(roleCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
-                        .addComponent(saveBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))))
+                        .addComponent(saveBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 660, Short.MAX_VALUE))
+                .addGap(20, 20, 20))
         );
 
         jTabbedPane1.addTab("CREATE USER", jPanel1);
@@ -294,6 +286,11 @@ public class admin_panel extends javax.swing.JFrame {
         });
 
         searchTF.setFont(new java.awt.Font("Lato Semibold", 0, 16)); // NOI18N
+        searchTF.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                searchTFKeyReleased(evt);
+            }
+        });
 
         searchBtn.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
         searchBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/search.png"))); // NOI18N
@@ -321,7 +318,7 @@ public class admin_panel extends javax.swing.JFrame {
             }
         });
         searchResultTable.setRowHeight(35);
-        searchResultTable.setSelectionBackground(new java.awt.Color(255, 0, 0));
+        searchResultTable.setSelectionBackground(java.awt.Color.green);
         searchResultTable.setSelectionForeground(new java.awt.Color(255, 255, 255));
         searchResultTable.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -329,6 +326,11 @@ public class admin_panel extends javax.swing.JFrame {
             }
         });
         jScrollPane1.setViewportView(searchResultTable);
+        if (searchResultTable.getColumnModel().getColumnCount() > 0) {
+            searchResultTable.getColumnModel().getColumn(0).setMinWidth(30);
+            searchResultTable.getColumnModel().getColumn(0).setPreferredWidth(30);
+            searchResultTable.getColumnModel().getColumn(0).setMaxWidth(30);
+        }
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -483,7 +485,7 @@ public class admin_panel extends javax.swing.JFrame {
             }
         });
         roomsTable.setRowHeight(35);
-        roomsTable.setSelectionBackground(new java.awt.Color(102, 255, 255));
+        roomsTable.setSelectionBackground(java.awt.Color.green);
         roomsTable.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 roomsTableMouseClicked(evt);
@@ -702,6 +704,7 @@ public class admin_panel extends javax.swing.JFrame {
 
     private void saveBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveBtnActionPerformed
         createUser();
+        //loadUsersTable();
     }//GEN-LAST:event_saveBtnActionPerformed
 
     private void searchBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchBtnActionPerformed
@@ -742,38 +745,56 @@ public class admin_panel extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_roomsTableMouseClicked
 
+    private void searchTFKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searchTFKeyReleased
+        searchUser();
+    }//GEN-LAST:event_searchTFKeyReleased
+
+    //PROBLEM SOLVED BUT WITHOUT CHECK FOR EMAILS
     private void createUser() {
         try {
-            Class.forName("com.mysql.jdbc.Driver");
+            Class.forName("com.mysql.cj.jdbc.Driver");
             Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/HC_LTD", "root", "");
-            String sql = "INSERT INTO users (full_name, username, password, id_number, email, role) VALUES (?, ?, ?, ?, ?, ?)";
-            PreparedStatement stmt = conn.prepareStatement(sql);
-            stmt.setString(1, nameTF.getText());
-            stmt.setString(2, unameTF.getText());
-            stmt.setString(3, passTF.getText());
-            stmt.setString(4, idTF.getText());
-            stmt.setString(5, emailTF.getText());
-            stmt.setObject(6, roleCombo.getSelectedItem());
 
-            if (nameTF.getText().isEmpty() || unameTF.getText().isEmpty()
-                    || passTF.getText().isEmpty() || idTF.getText().isEmpty()) {
+            String sqlUsernameCheck = "SELECT * FROM users where username = ?";
+            PreparedStatement check = conn.prepareStatement(sqlUsernameCheck);
+            check.setString(1, unameTF.getText());
 
-                JOptionPane.showMessageDialog(this, "Check for empty fields!");
+            ResultSet result = check.executeQuery();
 
-            } else if (!(passTF.getText().equals(cpassTF.getText()))) {
-
-                JOptionPane.showMessageDialog(this, "Passwords do not match!");
-
-            } else if (!(roleCombo.getSelectedItem().equals("ADMIN")
-                    || roleCombo.getSelectedItem().equals("MANAGER")
-                    || roleCombo.getSelectedItem().equals("USER"))) {
-
-                JOptionPane.showMessageDialog(this, "No Role Selected!");
-
+            if (result.next()) {
+                JOptionPane.showMessageDialog(this, "USERNAME ALREADY EXISTS IN DATABASE!");
             } else {
-                stmt.executeUpdate();
-                JOptionPane.showMessageDialog(this, "USER CREATED SUCCCESSFULLY!");
-                resetFields();
+                String sql = "INSERT INTO users (full_name, username, password, id_number, email, role) VALUES (?, ?, ?, ?, ?, ?)";
+                PreparedStatement stmt = conn.prepareStatement(sql);
+                stmt.setString(1, nameTF.getText());
+                stmt.setString(2, unameTF.getText());
+                stmt.setString(3, passTF.getText());
+                stmt.setString(4, idTF.getText());
+                stmt.setString(5, emailTF.getText());
+                stmt.setObject(6, roleCombo.getSelectedItem());
+
+                if (nameTF.getText().isEmpty() || unameTF.getText().isEmpty()
+                        || passTF.getText().isEmpty() || idTF.getText().isEmpty()) {
+
+                    JOptionPane.showMessageDialog(this, "CHECK FOR EMPTY FIELDS!");
+
+                } else if (!(passTF.getText().equals(cpassTF.getText()))) {
+
+                    JOptionPane.showMessageDialog(this, "PASSWORDS DO NOT MATCH!");
+
+                } else if (!(roleCombo.getSelectedItem().equals("ADMIN")
+                        || roleCombo.getSelectedItem().equals("MANAGER")
+                        || roleCombo.getSelectedItem().equals("USER"))) {
+
+                    JOptionPane.showMessageDialog(this, "NO ROLE SELECTED!");
+
+                } else {
+                    stmt.executeUpdate();
+                    JOptionPane.showMessageDialog(this, "USER CREATED SUCCCESSFULLY!");
+                    resetFields();
+                    loadUsersTable();
+                }
+
             }
 
         } catch (HeadlessException | ClassNotFoundException | SQLException e) {
@@ -793,17 +814,19 @@ public class admin_panel extends javax.swing.JFrame {
 
     private void searchUser() {
         try {
-            Class.forName("com.mysql.jdbc.Driver");
+            Class.forName("com.mysql.cj.jdbc.Driver");
             Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/HC_LTD", "root", "");
-            String sql = "SELECT * FROM users where username=?";
+            String sql = "SELECT * FROM users where username like ?";
             PreparedStatement stmt = conn.prepareStatement(sql);
-            stmt.setString(1, searchTF.getText());
+            stmt.setString(1, "%" + searchTF.getText() + "%");
             ResultSet result = stmt.executeQuery();
 
             if (searchTF.getText().isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Enter Username to search!");
+                //JOptionPane.showMessageDialog(this, "Enter Username to search!");
             } else if (result.next()) {
-                JOptionPane.showMessageDialog(this, "Search for " + searchTF.getText() + " found");
+                //JOptionPane.showMessageDialog(this, "Search for " + searchTF.getText() + " found");
+                DefaultTableModel table = (DefaultTableModel) searchResultTable.getModel();
+                table.setRowCount(0);
                 do {
                     // Retrieve data from the current row using getter methods
                     int id = result.getInt("id");
@@ -815,10 +838,10 @@ public class admin_panel extends javax.swing.JFrame {
 
                     // Create an array of search results
                     Object searchResults[] = {id, name, username, idno, email, role};
+                    System.out.println(Arrays.toString(searchResults));
 
                     // Add the search results to the table
-                    refresh();
-                    DefaultTableModel table = (DefaultTableModel) searchResultTable.getModel();
+                    //refresh();
                     table.addRow(searchResults);
                 } while (result.next());
             } else {
@@ -840,7 +863,7 @@ public class admin_panel extends javax.swing.JFrame {
 
     private void deleteUser() {
         try {
-            Class.forName("com.mysql.jdbc.Driver");
+            Class.forName("com.mysql.cj.jdbc.Driver");
             Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/HC_LTD", "root", "");
 
             int row = searchResultTable.getSelectedRow();
@@ -865,7 +888,7 @@ public class admin_panel extends javax.swing.JFrame {
 
     private void updateUserDetails() {
         try {
-            Class.forName("com.mysql.jdbc.Driver");
+            Class.forName("com.mysql.cj.jdbc.Driver");
             Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/HC_LTD", "root", "");
 
             int row = searchResultTable.getSelectedRow();
@@ -904,7 +927,7 @@ public class admin_panel extends javax.swing.JFrame {
 
     private void createRoom() {
         try {
-            Class.forName("com.mysql.jdbc.Driver");
+            Class.forName("com.mysql.cj.jdbc.Driver");
             Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/HC_LTD", "root", "");
             String sql = "INSERT INTO rooms (room_no, room_type, room_price) VALUES (?, ?, ?)";
             PreparedStatement stmt = conn.prepareStatement(sql);
@@ -944,7 +967,7 @@ public class admin_panel extends javax.swing.JFrame {
 
     private void fetchRooms() {
         try {
-            Class.forName("com.mysql.jdbc.Driver");
+            Class.forName("com.mysql.cj.jdbc.Driver");
             Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/HC_LTD", "root", "");
             String sql = "SELECT * FROM rooms";
             PreparedStatement stmt = conn.prepareStatement(sql);
@@ -953,7 +976,7 @@ public class admin_panel extends javax.swing.JFrame {
             DefaultTableModel table = (DefaultTableModel) roomsTable.getModel();
             table.setRowCount(0);
             while (result.next()) {
-                
+
                 int id = result.getInt("id");
                 int roomNo = result.getInt("room_no");
                 String roomType = result.getString("room_type");
@@ -984,7 +1007,7 @@ public class admin_panel extends javax.swing.JFrame {
 
     private void deleteRoom() {
         try {
-            Class.forName("com.mysql.jdbc.Driver");
+            Class.forName("com.mysql.cj.jdbc.Driver");
             Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/HC_LTD", "root", "");
 
             int row = roomsTable.getSelectedRow();
@@ -1004,6 +1027,38 @@ public class admin_panel extends javax.swing.JFrame {
             }
 
         } catch (ClassNotFoundException | SQLException e) {
+            System.out.println(e);
+        }
+
+    }
+
+    private void loadUsersTable() {
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/HC_LTD", "root", "");
+            String sql = "SELECT * FROM users";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+
+            ResultSet result = stmt.executeQuery();
+            DefaultTableModel table = (DefaultTableModel) allUsersTable.getModel();
+            table.setRowCount(0);
+
+            while (result.next()) {
+                String fullName = result.getString("full_name").toUpperCase();
+                String userName = result.getString("username").toUpperCase();
+                String idNo = result.getString("id_number");
+                String email = result.getString("email").toLowerCase();
+                String role = result.getString("role");
+
+                // Create an array of search results
+                Object rooms[] = {fullName, userName, idNo, email, role};
+
+                // Add the search results to the table
+                table.addRow(rooms);
+
+            }
+
+        } catch (HeadlessException | ClassNotFoundException | SQLException e) {
             System.out.println(e);
         }
 
@@ -1065,6 +1120,7 @@ public class admin_panel extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTable allUsersTable;
     private javax.swing.JPasswordField cpassTF;
     private javax.swing.JButton createRoomBtn;
     private javax.swing.JButton deleteBtn;
@@ -1104,7 +1160,6 @@ public class admin_panel extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTabbedPane jTabbedPane2;
-    private javax.swing.JTable jTable2;
     private javax.swing.JTextField nameTF;
     private javax.swing.JPasswordField passTF;
     private javax.swing.JComboBox<String> roleCombo;

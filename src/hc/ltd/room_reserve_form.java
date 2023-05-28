@@ -4,17 +4,18 @@
  */
 package hc.ltd;
 
-import java.awt.Color;
 import java.awt.HeadlessException;
-import java.beans.Statement;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.text.SimpleDateFormat;
+
+import java.util.Arrays;
+import java.util.Date;
+
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
@@ -31,7 +32,7 @@ public class room_reserve_form extends javax.swing.JFrame {
     public room_reserve_form() {
         initComponents();
         updateRoomStatusTable();
-
+        loadActiveUsers();
     }
 
     private void reset() {
@@ -49,7 +50,7 @@ public class room_reserve_form extends javax.swing.JFrame {
     private void updateRoomStatusTable() {
         //roomTypeTF.removeAllItems();//problem
         try {
-            Class.forName("com.mysql.jdbc.Driver");
+            Class.forName("com.mysql.cj.jdbc.Driver");
             Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/HC_LTD", "root", "");
             String sql = "SELECT * FROM rooms";
             PreparedStatement stmt = conn.prepareStatement(sql);
@@ -177,7 +178,7 @@ public class room_reserve_form extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Name", "Phone", "Id Number", "Room No", "Room Type", "No Of Days", "Amount", "Payment Method"
+                "NAME", "PHONE", "ROOM NO", "ROOM TYPE", "NO OF DAYS", "AMOUNT", "PAYMENT", "CHECK IN"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -195,14 +196,11 @@ public class room_reserve_form extends javax.swing.JFrame {
         display_table.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         display_table.setShowGrid(false);
         display_table.setShowHorizontalLines(true);
-        display_table.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                display_tableMouseClicked(evt);
-            }
-        });
         jScrollPane2.setViewportView(display_table);
         if (display_table.getColumnModel().getColumnCount() > 0) {
-            display_table.getColumnModel().getColumn(3).setPreferredWidth(40);
+            display_table.getColumnModel().getColumn(2).setPreferredWidth(35);
+            display_table.getColumnModel().getColumn(4).setPreferredWidth(35);
+            display_table.getColumnModel().getColumn(6).setPreferredWidth(50);
         }
 
         refresh.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/refresh-button.png"))); // NOI18N
@@ -285,63 +283,49 @@ public class room_reserve_form extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(55, 55, 55)
-                .addComponent(jLabel2)
-                .addGap(313, 313, 313)
-                .addComponent(refresh, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(40, 40, 40)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel2)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1)
-                        .addGap(8, 8, 8))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(15, 15, 15)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(roomTypeTF)
+                                .addComponent(roomTypeTF, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
-                                .addComponent(roomNoTF))
-                            .addComponent(nameTF)
-                            .addComponent(phoneTF)
-                            .addComponent(idTF)
+                                .addComponent(roomNoTF, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(nameTF, javax.swing.GroupLayout.PREFERRED_SIZE, 477, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(phoneTF, javax.swing.GroupLayout.PREFERRED_SIZE, 477, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(idTF, javax.swing.GroupLayout.PREFERRED_SIZE, 477, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(spinner)
+                                .addComponent(spinner, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(21, 21, 21)
-                                .addComponent(amtTF))
+                                .addComponent(amtTF, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(paymentCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 327, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel4)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(paymentCombo, 0, 327, Short.MAX_VALUE)
-                                .addGap(150, 150, 150))
+                                .addComponent(jLabel9)
+                                .addGap(154, 154, 154)
+                                .addComponent(jLabel10))
+                            .addComponent(jLabel8)
                             .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel3)
-                                    .addComponent(jLabel4)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jLabel9)
-                                        .addGap(154, 154, 154)
-                                        .addComponent(jLabel10))
-                                    .addComponent(jLabel8)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(bookBtn)
-                                        .addGap(12, 12, 12)
-                                        .addComponent(checkoutBtn))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jLabel7)
-                                        .addGap(146, 146, 146)
-                                        .addComponent(jLabel6)))
-                                .addGap(0, 0, Short.MAX_VALUE)))
-                        .addGap(52, 52, 52)))
-                .addGap(32, 32, 32)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 904, Short.MAX_VALUE))
+                                .addComponent(jLabel7)
+                                .addGap(146, 146, 146)
+                                .addComponent(jLabel6))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(bookBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(12, 12, 12)
+                                .addComponent(checkoutBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(refresh, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 477, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 976, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(10, 10, 10)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(16, 16, 16)
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(refresh, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(26, 26, 26)
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(5, 5, 5)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -380,7 +364,8 @@ public class room_reserve_form extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(1, 1, 1)
                                 .addComponent(bookBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(checkoutBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(checkoutBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(refresh, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(29, 29, 29)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 276, Short.MAX_VALUE))
                     .addComponent(jScrollPane2))
@@ -397,11 +382,12 @@ public class room_reserve_form extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
     private void bookBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bookBtnActionPerformed
         bookRoom();
+        loadActiveUsers();
 
     }//GEN-LAST:event_bookBtnActionPerformed
 
     private void refreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshActionPerformed
-
+        loadActiveUsers();
     }//GEN-LAST:event_refreshActionPerformed
 
     private void roomNoTFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_roomNoTFActionPerformed
@@ -417,7 +403,7 @@ public class room_reserve_form extends javax.swing.JFrame {
         int room_number = Integer.parseInt(roomNoTF.getText());
 
         try {
-            Class.forName("com.mysql.jdbc.Driver");
+            Class.forName("com.mysql.cj.jdbc.Driver");
             Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/HC_LTD", "root", "");
             String sql = "SELECT * FROM rooms WHERE room_no = ?";
             PreparedStatement stmt = conn.prepareStatement(sql);
@@ -434,47 +420,12 @@ public class room_reserve_form extends javax.swing.JFrame {
 
             }
 
-        } catch (Exception e) {
+        } catch (ClassNotFoundException | NumberFormatException | SQLException e) {
             System.out.println(e);
         }
 
 
     }//GEN-LAST:event_spinnerStateChanged
-
-    private void display_tableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_display_tableMouseClicked
-        DefaultTableModel model = (DefaultTableModel) display_table.getModel();
-        int row = display_table.getSelectedRow();
-
-//
-//        nameLabel.setText(model.getValueAt(row, 0).toString());
-//        nameTF.setBackground(Color.red);
-//        phoneTF.setText(model.getValueAt(row, 1).toString());
-//        idTF.setText(model.getValueAt(row, 2).toString());
-//        roomNoCombo.setSelectedItem(model.getValueAt(row, 3).toString());
-//        roomTypeTF.setText(model.getValueAt(row, 4).toString());
-//        spinner.setValue(model.getValueAt(row, 5).toString());
-//        amtTF.setText(model.getValueAt(row, 6).toString());
-//        paymentCombo.setSelectedItem(model.getValueAt(row, 7).toString());
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/HC_LTD", "root", "");
-
-            //UPDATING THE ROOM STATUS UPON MAKING RESERVATION
-            String updateStatus = "UPDATE rooms SET room_state = ? WHERE room_no = ?";
-            PreparedStatement updateStmt = conn.prepareStatement(updateStatus);
-            updateStmt.setInt(1, 0);
-            updateStmt.setObject(2, model.getValueAt(row, 3).toString());
-            updateStmt.executeUpdate();
-
-            JOptionPane.showMessageDialog(this, "CHECKED OUT!");
-//            updateCombo();
-
-        } catch (Exception e) {
-            System.out.print(e);
-        }
-
-
-    }//GEN-LAST:event_display_tableMouseClicked
 
     private void roomStatusTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_roomStatusTableMouseClicked
         loadRoomData();
@@ -495,7 +446,7 @@ public class room_reserve_form extends javax.swing.JFrame {
 
     private void bookRoom() {
         try {
-            Class.forName("com.mysql.jdbc.Driver");
+            Class.forName("com.mysql.cj.jdbc.Driver");
             Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/HC_LTD", "root", "");
             String sql = "INSERT INTO bookings (name, phone, id_no, room_type,room_no,  no_of_days, amount, payment_method) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement stmt = conn.prepareStatement(sql);
@@ -517,13 +468,49 @@ public class room_reserve_form extends javax.swing.JFrame {
             updateStmt.executeUpdate();
 
             JOptionPane.showMessageDialog(this, "BOOKING SUCCESSFUL!");
-//            updateCombo();
             updateRoomStatusTable();
             reset();
 
         } catch (HeadlessException | ClassNotFoundException | NumberFormatException | SQLException e) {
             System.out.println(e);
         }
+    }
+
+    private void loadActiveUsers() {
+        Date currentDate = new Date();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd");
+        String formattedDate = dateFormat.format(currentDate);
+
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/HC_LTD", "root", "");
+            String sql = "SELECT * FROM bookings WHERE date_format(check_in_date, '%d') = ?";
+            PreparedStatement dateFilter = conn.prepareStatement(sql);
+            dateFilter.setString(1, formattedDate);
+            ResultSet rs = dateFilter.executeQuery();
+
+            DefaultTableModel model = (DefaultTableModel) display_table.getModel();
+            model.setRowCount(0);
+
+            while (rs.next()) {
+                String name = rs.getString("name");
+                String phone = rs.getString("phone");
+                String room_no = rs.getString("room_no");
+                String room_type = rs.getString("room_type");
+                String no_of_days = rs.getString("no_of_days");
+                String amount = rs.getString("amount");
+                String payment_method = rs.getString("payment_method");
+                String check_in_date = rs.getString("check_in_date");
+                //System.out.println(rs.getString("name"));
+                Object getData[] = {name, phone, room_no, room_type, no_of_days, amount, payment_method, check_in_date};
+                //System.out.println(Arrays.toString(getData));
+                model.addRow(getData);
+            }
+
+        } catch (HeadlessException | ClassNotFoundException | NumberFormatException | SQLException e) {
+            System.out.println(e);
+        }
+
     }
 
     /**
