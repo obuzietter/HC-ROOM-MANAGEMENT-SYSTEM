@@ -4,10 +4,10 @@
  */
 package hc.ltd;
 
-import static java.lang.Thread.sleep;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.JProgressBar;
+//import static java.lang.Thread.sleep;
+//import java.util.logging.Level;
+//import java.util.logging.Logger;
+//import javax.swing.JProgressBar;
 import javax.swing.UIManager;
 
 /**
@@ -15,8 +15,6 @@ import javax.swing.UIManager;
  * @author obuzietter
  */
 public class splash_p extends javax.swing.JFrame {
-
-    
 
     /**
      * Creates new form splash_p
@@ -26,8 +24,6 @@ public class splash_p extends javax.swing.JFrame {
 
     }
 
-  
-    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -115,15 +111,15 @@ public class splash_p extends javax.swing.JFrame {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-               //                if ("Nimbus".equals(info.getName())) {
+                //                if ("Nimbus".equals(info.getName())) {
 //                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
 //                    break;
-//                }               
-    UIManager.setLookAndFeel("com.jtattoo.plaf.mcwin.McWinLookAndFeel"); //kali
+//                }
+                UIManager.setLookAndFeel("com.jtattoo.plaf.mcwin.McWinLookAndFeel"); //kali
             }
         } catch (ClassNotFoundException ex) {
             java.util.logging.Logger.getLogger(splash_p.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
@@ -135,24 +131,25 @@ public class splash_p extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(splash_p.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-splash_p splash = new splash_p();
+        splash_p splash = new splash_p();
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 splash.setVisible(true);
             }
         });
-        
+
         login_form login = new login_form();
-        try{
-            
-            for (int i=0; i<100; i++){
+        try {
+
+            for (int i = 0; i < 100; i++) {
                 Thread.sleep(50);
                 splash.bar.setValue(i);
-                splash.percent.setText(Integer.toString(i)+"%");
+                splash.percent.setText(Integer.toString(i) + "%");
             }
-        }catch(Exception e){
-            
+        } catch (InterruptedException e) {
+
         }
         splash.dispose();
         login.setVisible(true);

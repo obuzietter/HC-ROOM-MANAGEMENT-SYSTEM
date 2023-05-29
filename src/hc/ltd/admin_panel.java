@@ -9,7 +9,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
-import java.util.Date;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
@@ -654,10 +653,7 @@ public class admin_panel extends javax.swing.JFrame {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null}
+
             },
             new String [] {
                 "NAME", "PHONE", "ID NO", "ROOM NO", "ROOM TYPE", "DAYS", "AMOUNT", "PAYMENT", "CHECK IN"
@@ -807,8 +803,6 @@ public class admin_panel extends javax.swing.JFrame {
     }//GEN-LAST:event_searchTFKeyReleased
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-
-        //Date currentDate = new Date();0
         SimpleDateFormat date = new SimpleDateFormat("dd");
         SimpleDateFormat month = new SimpleDateFormat("MM");
         SimpleDateFormat year = new SimpleDateFormat("yyyy");
@@ -819,13 +813,17 @@ public class admin_panel extends javax.swing.JFrame {
 
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/HC_LTD", "root", "");
-            String sql = "SELECT * FROM bookings WHERE date_format(check_in_date, '%d') = ? AND date_format(check_in_date, '%m') = ? AND date_format(check_in_date, '%Y') = ?";
+            Connection conn = DriverManager.getConnection(
+                    "jdbc:mysql://localhost:3306/HC_LTD", "root", "");
+            String sql = "SELECT * FROM bookings "
+                    + "WHERE date_format(check_in_date, '%d') = ? "
+                    + "AND date_format(check_in_date, '%m') = ? "
+                    + "AND date_format(check_in_date, '%Y') = ?";
             PreparedStatement dateFilter = conn.prepareStatement(sql);
             dateFilter.setString(1, formattedDate);
             dateFilter.setString(2, formattedMonth);
             dateFilter.setString(3, formattedYear);
-            
+
             ResultSet rs = dateFilter.executeQuery();
 
             DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
@@ -841,30 +839,39 @@ public class admin_panel extends javax.swing.JFrame {
                 int amount = rs.getInt("amount");
                 String payment_method = rs.getString("payment_method");
                 String check_in_date = rs.getString("check_in_date");
-                //System.out.println(rs.getString("name"));
-                Object getData[] = {name, phone, id_no, room_no, room_type, no_of_days, amount, payment_method, check_in_date};
-                //System.out.println(Arrays.toString(getData));
+
+                Object getData[] = {
+                    name,
+                    phone,
+                    id_no,
+                    room_no,
+                    room_type,
+                    no_of_days,
+                    amount,
+                    payment_method,
+                    check_in_date
+                };
                 model.addRow(getData);
-                
                 due += amount;
             }
-            
-            Object getData[] = {"", "", "", "", "", "TOTAL", due, "", ""};
-            model.addRow(getData);
+
+            Object[] totalRow = {"TOTAL", "", "", "", "", "", due, "", ""};
+            model.addRow(totalRow);
             System.out.println(due);
 
-        } catch (HeadlessException | ClassNotFoundException | NumberFormatException | SQLException e) {
+        } catch (HeadlessException | ClassNotFoundException
+                | NumberFormatException | SQLException e) {
+
             System.out.println(e);
+
         }
-
-        // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
-
     //PROBLEM SOLVED BUT WITHOUT CHECK FOR EMAILS
     private void createUser() {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/HC_LTD", "root", "");
+            Connection conn = DriverManager.getConnection(
+                    "jdbc:mysql://localhost:3306/HC_LTD", "root", "");
 
             String sqlUsernameCheck = "SELECT * FROM users where username = ?";
             PreparedStatement check = conn.prepareStatement(sqlUsernameCheck);
@@ -873,9 +880,12 @@ public class admin_panel extends javax.swing.JFrame {
             ResultSet result = check.executeQuery();
 
             if (result.next()) {
-                JOptionPane.showMessageDialog(this, "USERNAME ALREADY EXISTS IN DATABASE!");
+                JOptionPane.showMessageDialog(this,
+                        "USERNAME ALREADY EXISTS IN DATABASE!");
             } else {
-                String sql = "INSERT INTO users (full_name, username, password, id_number, email, role) VALUES (?, ?, ?, ?, ?, ?)";
+                String sql = "INSERT INTO users (full_name, username, "
+                        + "password, id_number, email, role) "
+                        + "VALUES (?, ?, ?, ?, ?, ?)";
                 PreparedStatement stmt = conn.prepareStatement(sql);
                 stmt.setString(1, nameTF.getText());
                 stmt.setString(2, unameTF.getText());
@@ -885,13 +895,16 @@ public class admin_panel extends javax.swing.JFrame {
                 stmt.setObject(6, roleCombo.getSelectedItem());
 
                 if (nameTF.getText().isEmpty() || unameTF.getText().isEmpty()
-                        || passTF.getText().isEmpty() || idTF.getText().isEmpty()) {
+                        || passTF.getText().isEmpty()
+                        || idTF.getText().isEmpty()) {
 
-                    JOptionPane.showMessageDialog(this, "CHECK FOR EMPTY FIELDS!");
+                    JOptionPane.showMessageDialog(this,
+                            "CHECK FOR EMPTY FIELDS!");
 
                 } else if (!(passTF.getText().equals(cpassTF.getText()))) {
 
-                    JOptionPane.showMessageDialog(this, "PASSWORDS DO NOT MATCH!");
+                    JOptionPane.showMessageDialog(this,
+                            "PASSWORDS DO NOT MATCH!");
 
                 } else if (!(roleCombo.getSelectedItem().equals("ADMIN")
                         || roleCombo.getSelectedItem().equals("MANAGER")
@@ -901,7 +914,8 @@ public class admin_panel extends javax.swing.JFrame {
 
                 } else {
                     stmt.executeUpdate();
-                    JOptionPane.showMessageDialog(this, "USER CREATED SUCCCESSFULLY!");
+                    JOptionPane.showMessageDialog(this,
+                            "USER CREATED SUCCCESSFULLY!");
                     resetFields();
                     loadUsersTable();
                 }
@@ -926,7 +940,8 @@ public class admin_panel extends javax.swing.JFrame {
     private void searchUser() {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/HC_LTD", "root", "");
+            Connection conn = DriverManager.getConnection(
+                    "jdbc:mysql://localhost:3306/HC_LTD", "root", "");
             String sql = "SELECT * FROM users where username like ?";
             PreparedStatement stmt = conn.prepareStatement(sql);
             stmt.setString(1, "%" + searchTF.getText() + "%");
@@ -936,7 +951,8 @@ public class admin_panel extends javax.swing.JFrame {
                 //JOptionPane.showMessageDialog(this, "Enter Username to search!");
             } else if (result.next()) {
                 //JOptionPane.showMessageDialog(this, "Search for " + searchTF.getText() + " found");
-                DefaultTableModel table = (DefaultTableModel) searchResultTable.getModel();
+                DefaultTableModel table;
+                table = (DefaultTableModel) searchResultTable.getModel();
                 table.setRowCount(0);
                 do {
                     // Retrieve data from the current row using getter methods
@@ -946,17 +962,23 @@ public class admin_panel extends javax.swing.JFrame {
                     String idno = result.getString("id_number");
                     String email = result.getString("email");
                     String role = result.getString("role");
-
                     // Create an array of search results
-                    Object searchResults[] = {id, name, username, idno, email, role};
+                    Object searchResults[] = {
+                        id,
+                        name,
+                        username,
+                        idno,
+                        email,
+                        role
+                    };
                     System.out.println(Arrays.toString(searchResults));
-
                     // Add the search results to the table
                     //refresh();
                     table.addRow(searchResults);
                 } while (result.next());
             } else {
-                JOptionPane.showMessageDialog(this, "Search for '" + searchTF.getText() + "' not found!");
+                JOptionPane.showMessageDialog(this, 
+                        "Search for '" + searchTF.getText() + "' not found!");
             }
         } catch (HeadlessException | ClassNotFoundException | SQLException e) {
             System.out.println(e);
@@ -975,7 +997,8 @@ public class admin_panel extends javax.swing.JFrame {
     private void deleteUser() {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/HC_LTD", "root", "");
+            Connection conn = DriverManager.getConnection(
+                    "jdbc:mysql://localhost:3306/HC_LTD", "root", "");
 
             int row = searchResultTable.getSelectedRow();
             int userID = Integer.parseInt(String.valueOf(searchResultTable.getValueAt(row, 0)));
@@ -986,10 +1009,12 @@ public class admin_panel extends javax.swing.JFrame {
             int deletedUser = stmt.executeUpdate();
 
             if (deletedUser > 0) {
-                JOptionPane.showMessageDialog(this, "USER DELETED SUCCESSFULLY!");
+                JOptionPane.showMessageDialog(this, 
+                        "USER DELETED SUCCESSFULLY!");
                 refresh();
             } else {
-                JOptionPane.showMessageDialog(this, "NO RECORDS FOUND!");
+                JOptionPane.showMessageDialog(this, 
+                        "NO RECORDS FOUND!");
             }
 
         } catch (ClassNotFoundException | SQLException e) {
@@ -1000,12 +1025,14 @@ public class admin_panel extends javax.swing.JFrame {
     private void updateUserDetails() {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/HC_LTD", "root", "");
+            Connection conn = DriverManager.getConnection(
+                    "jdbc:mysql://localhost:3306/HC_LTD", "root", "");
 
             int row = searchResultTable.getSelectedRow();
             int userID = Integer.parseInt(String.valueOf(searchResultTable.getValueAt(row, 0)));
 
-            String sql = "UPDATE users SET full_name = ?, username = ?, id_number = ?, email = ?, role = ? WHERE id = ?";
+            String sql = "UPDATE users SET full_name = ?, username = ?, ."
+                    + "id_number = ?, email = ?, role = ? WHERE id = ?";
             PreparedStatement stmt = conn.prepareStatement(sql);
             stmt.setString(1, fullnameTF2.getText());
             stmt.setString(2, usernameTF2.getText());
@@ -1015,9 +1042,11 @@ public class admin_panel extends javax.swing.JFrame {
             stmt.setInt(6, userID);
             int updatedUser = stmt.executeUpdate();
             if (updatedUser > 0) {
-                JOptionPane.showMessageDialog(this, "1 RECORD UPDATED SUCCESSFULLY!");
+                JOptionPane.showMessageDialog(this, 
+                        "1 RECORD UPDATED SUCCESSFULLY!");
             } else {
-                JOptionPane.showMessageDialog(this, "UPDATE FAILED. CHECK PARAMETERS!");
+                JOptionPane.showMessageDialog(this, 
+                        "UPDATE FAILED. CHECK PARAMETERS!");
             }
 
         } catch (ClassNotFoundException | SQLException e) {
@@ -1031,7 +1060,9 @@ public class admin_panel extends javax.swing.JFrame {
         idnoTF2.setText("");
         emailTF2.setText("");
         roleTF.setText("");
-        DefaultTableModel table = (DefaultTableModel) searchResultTable.getModel();
+        
+        DefaultTableModel table;
+        table = (DefaultTableModel) searchResultTable.getModel();
         table.setRowCount(0);
 
     }
@@ -1039,8 +1070,10 @@ public class admin_panel extends javax.swing.JFrame {
     private void createRoom() {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/HC_LTD", "root", "");
-            String sql = "INSERT INTO rooms (room_no, room_type, room_price) VALUES (?, ?, ?)";
+            Connection conn = DriverManager.getConnection(
+                    "jdbc:mysql://localhost:3306/HC_LTD", "root", "");
+            String sql = "INSERT INTO rooms (room_no, room_type, room_price) "
+                    + "VALUES (?, ?, ?)";
             PreparedStatement stmt = conn.prepareStatement(sql);
             stmt.setString(1, roomNoTF.getText());
             stmt.setObject(2, roomTypeCombo.getSelectedItem());
@@ -1053,20 +1086,26 @@ public class admin_panel extends javax.swing.JFrame {
 
             if (roomNoTF.getText().isEmpty()) {
 
-                JOptionPane.showMessageDialog(this, "ROOM NUMBER IS EMPTY!");
+                JOptionPane.showMessageDialog(this, 
+                        "ROOM NUMBER IS EMPTY!");
 
             } else if (result.next()) {
 
-                JOptionPane.showMessageDialog(this, "ROOM ALREADY EXISTS IN DATABASE");
+                JOptionPane.showMessageDialog(this, 
+                        "ROOM ALREADY EXISTS IN DATABASE");
 
-            } else if (!(roomTypeCombo.getSelectedItem().equals("DELUXE") || roomTypeCombo.getSelectedItem().equals("STANDARD"))) {
+            } else if (!(roomTypeCombo.getSelectedItem().equals("DELUXE") 
+                    || roomTypeCombo.getSelectedItem().equals("STANDARD"))) {
 
-                JOptionPane.showMessageDialog(this, "SELECT ROOM TYPE");
+                JOptionPane.showMessageDialog(this, 
+                        "SELECT ROOM TYPE");
 
             } else {
 
                 stmt.executeUpdate();
-                JOptionPane.showMessageDialog(this, "ROOM CREATED SUCCCESSFULLY!");
+                JOptionPane.showMessageDialog(this, 
+                        "ROOM CREATED SUCCCESSFULLY!");
+                
                 fetchRooms();
 
             }
@@ -1079,13 +1118,16 @@ public class admin_panel extends javax.swing.JFrame {
     private void fetchRooms() {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/HC_LTD", "root", "");
+            Connection conn = DriverManager.getConnection(
+                    "jdbc:mysql://localhost:3306/HC_LTD", "root", "");
             String sql = "SELECT * FROM rooms";
             PreparedStatement stmt = conn.prepareStatement(sql);
-
             ResultSet result = stmt.executeQuery();
-            DefaultTableModel table = (DefaultTableModel) roomsTable.getModel();
+            
+            DefaultTableModel table;
+            table = (DefaultTableModel) roomsTable.getModel();
             table.setRowCount(0);
+            
             while (result.next()) {
 
                 int id = result.getInt("id");
@@ -1095,7 +1137,13 @@ public class admin_panel extends javax.swing.JFrame {
                 String status = result.getString("room_state");
 
                 // Create an array of search results
-                Object rooms[] = {id, roomNo, roomType, price, status};
+                Object rooms[] = {
+                    id, 
+                    roomNo, 
+                    roomType, 
+                    price, 
+                    status
+                };
 
                 // Add the search results to the table
                 table.addRow(rooms);
@@ -1119,7 +1167,8 @@ public class admin_panel extends javax.swing.JFrame {
     private void deleteRoom() {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/HC_LTD", "root", "");
+            Connection conn = DriverManager.getConnection(
+                    "jdbc:mysql://localhost:3306/HC_LTD", "root", "");
 
             int row = roomsTable.getSelectedRow();
             int roomID = Integer.parseInt(String.valueOf(roomsTable.getValueAt(row, 0)));
@@ -1130,11 +1179,13 @@ public class admin_panel extends javax.swing.JFrame {
             int deletedRoom = stmt.executeUpdate();
 
             if (deletedRoom > 0) {
-                JOptionPane.showMessageDialog(this, "ROOM DELETED SUCCESSFULLY!");
+                JOptionPane.showMessageDialog(this, 
+                        "ROOM DELETED SUCCESSFULLY!");
                 refresh();
                 fetchRooms();
             } else {
-                JOptionPane.showMessageDialog(this, "NO RECORDS FOUND!");
+                JOptionPane.showMessageDialog(this, 
+                        "NO RECORDS FOUND!");
             }
 
         } catch (ClassNotFoundException | SQLException e) {
@@ -1146,12 +1197,14 @@ public class admin_panel extends javax.swing.JFrame {
     private void loadUsersTable() {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/HC_LTD", "root", "");
+            Connection conn = DriverManager.getConnection(
+                    "jdbc:mysql://localhost:3306/HC_LTD", "root", "");
             String sql = "SELECT * FROM users";
             PreparedStatement stmt = conn.prepareStatement(sql);
 
             ResultSet result = stmt.executeQuery();
-            DefaultTableModel table = (DefaultTableModel) allUsersTable.getModel();
+            DefaultTableModel table;
+            table = (DefaultTableModel) allUsersTable.getModel();
             table.setRowCount(0);
 
             while (result.next()) {
@@ -1162,7 +1215,13 @@ public class admin_panel extends javax.swing.JFrame {
                 String role = result.getString("role");
 
                 // Create an array of search results
-                Object rooms[] = {fullName, userName, idNo, email, role};
+                Object rooms[] = {
+                    fullName, 
+                    userName, 
+                    idNo, 
+                    email, 
+                    role
+                };
 
                 // Add the search results to the table
                 table.addRow(rooms);
@@ -1191,18 +1250,8 @@ public class admin_panel extends javax.swing.JFrame {
 //                    break;
 //                }
 
-//                UIManager.setLookAndFeel("com.jtattoo.plaf.smart.SmartLookAndFeel");
-//                UIManager.setLookAndFeel("com.jtattoo.plaf.acryl.AcrylLookAndFeel");
-//                UIManager.setLookAndFeel("com.jtattoo.plaf.aero.AeroLookAndFeel"); //nice blue
-//                UIManager.setLookAndFeel("com.jtattoo.plaf.aluminium.AluminiumLookAndFeel");
-//                UIManager.setLookAndFeel("com.jtattoo.plaf.bernstein.BernsteinLookAndFeel"); //yellow
-//                UIManager.setLookAndFeel("com.jtattoo.plaf.fast.FastLookAndFeel");
-//                UIManager.setLookAndFeel("com.jtattoo.plaf.graphite.GraphiteLookAndFeel");
-//                UIManager.setLookAndFeel("com.jtattoo.plaf.hifi.HiFiLookAndFeel");
-//                UIManager.setLookAndFeel("com.jtattoo.plaf.luna.LunaLookAndFeel");
                 UIManager.setLookAndFeel("com.jtattoo.plaf.mcwin.McWinLookAndFeel"); //kali
-//                UIManager.setLookAndFeel("com.jtattoo.plaf.mint.MintLookAndFeel");
-//                UIManager.setLookAndFeel("com.jtattoo.plaf.noire.NoireLookAndFeel");
+
             }
         } catch (ClassNotFoundException ex) {
             java.util.logging.Logger.getLogger(admin_panel.class

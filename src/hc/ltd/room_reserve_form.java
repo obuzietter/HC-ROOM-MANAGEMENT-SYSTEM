@@ -5,17 +5,13 @@
 package hc.ltd;
 
 import java.awt.HeadlessException;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
-
-import java.util.Arrays;
 import java.util.Date;
-
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
@@ -51,12 +47,14 @@ public class room_reserve_form extends javax.swing.JFrame {
         //roomTypeTF.removeAllItems();//problem
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/HC_LTD", "root", "");
+            Connection conn = DriverManager.getConnection(
+                    "jdbc:mysql://localhost:3306/HC_LTD", "root", "");
             String sql = "SELECT * FROM rooms";
             PreparedStatement stmt = conn.prepareStatement(sql);
             ResultSet result = stmt.executeQuery(sql);
 
-            DefaultTableModel table = (DefaultTableModel) roomStatusTable.getModel();
+            DefaultTableModel table;
+            table = (DefaultTableModel) roomStatusTable.getModel();
             table.setRowCount(0);
             while (result.next()) {
                 if ("OPEN".equals(result.getString("room_state"))) {
@@ -73,7 +71,7 @@ public class room_reserve_form extends javax.swing.JFrame {
 
                 }
             }
-        } catch (Exception e) {
+        } catch (ClassNotFoundException | SQLException e) {
             System.out.println(e);
         }
     }
@@ -228,11 +226,6 @@ public class room_reserve_form extends javax.swing.JFrame {
                 roomNoTFFocusGained(evt);
             }
         });
-        roomNoTF.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                roomNoTFActionPerformed(evt);
-            }
-        });
 
         spinner.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
         spinner.setModel(new javax.swing.SpinnerNumberModel(1, 1, null, 1));
@@ -271,11 +264,6 @@ public class room_reserve_form extends javax.swing.JFrame {
 
         roomTypeTF.setEditable(false);
         roomTypeTF.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
-        roomTypeTF.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                roomTypeTFFocusGained(evt);
-            }
-        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -390,10 +378,6 @@ public class room_reserve_form extends javax.swing.JFrame {
         loadActiveUsers();
     }//GEN-LAST:event_refreshActionPerformed
 
-    private void roomNoTFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_roomNoTFActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_roomNoTFActionPerformed
-
     private void roomNoTFFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_roomNoTFFocusGained
 
     }//GEN-LAST:event_roomNoTFFocusGained
@@ -404,7 +388,8 @@ public class room_reserve_form extends javax.swing.JFrame {
 
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/HC_LTD", "root", "");
+            Connection conn = DriverManager.getConnection(
+                    "jdbc:mysql://localhost:3306/HC_LTD", "root", "");
             String sql = "SELECT * FROM rooms WHERE room_no = ?";
             PreparedStatement stmt = conn.prepareStatement(sql);
             stmt.setInt(1, room_number);
@@ -420,8 +405,11 @@ public class room_reserve_form extends javax.swing.JFrame {
 
             }
 
-        } catch (ClassNotFoundException | NumberFormatException | SQLException e) {
+        } catch (ClassNotFoundException | NumberFormatException
+                | SQLException e) {
+
             System.out.println(e);
+
         }
 
 
@@ -430,12 +418,9 @@ public class room_reserve_form extends javax.swing.JFrame {
     private void roomStatusTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_roomStatusTableMouseClicked
         loadRoomData();
     }//GEN-LAST:event_roomStatusTableMouseClicked
-
-    private void roomTypeTFFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_roomTypeTFFocusGained
-        // TODO add your handling code here:
-    }//GEN-LAST:event_roomTypeTFFocusGained
     private void loadRoomData() {
-        DefaultTableModel model = (DefaultTableModel) roomStatusTable.getModel();
+        DefaultTableModel model;
+        model = (DefaultTableModel) roomStatusTable.getModel();
         int row = roomStatusTable.getSelectedRow();
 
         roomNoTF.setText(model.getValueAt(row, 0).toString());
@@ -447,8 +432,11 @@ public class room_reserve_form extends javax.swing.JFrame {
     private void bookRoom() {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/HC_LTD", "root", "");
-            String sql = "INSERT INTO bookings (name, phone, id_no, room_type,room_no,  no_of_days, amount, payment_method) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+            Connection conn = DriverManager.getConnection(
+                    "jdbc:mysql://localhost:3306/HC_LTD", "root", "");
+            String sql = "INSERT INTO bookings (name, phone, id_no, room_type, "
+                    + "room_no, no_of_days, amount, payment_method) VALUES "
+                    + "(?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement stmt = conn.prepareStatement(sql);
             stmt.setString(1, nameTF.getText());
             stmt.setString(2, phoneTF.getText());
@@ -461,8 +449,10 @@ public class room_reserve_form extends javax.swing.JFrame {
             stmt.executeUpdate();
 
             //UPDATING THE ROOM STATUS UPON MAKING RESERVATION
-            String updateStatus = "UPDATE rooms SET room_state = ? WHERE room_no = ?";
-            PreparedStatement updateStmt = conn.prepareStatement(updateStatus);
+            String updateStatus = "UPDATE rooms SET room_state = ? "
+                    + "WHERE room_no = ?";
+            PreparedStatement updateStmt;
+            updateStmt = conn.prepareStatement(updateStatus);
             updateStmt.setString(1, "BOOKED");
             updateStmt.setInt(2, Integer.parseInt(roomNoTF.getText()));
             updateStmt.executeUpdate();
@@ -471,8 +461,11 @@ public class room_reserve_form extends javax.swing.JFrame {
             updateRoomStatusTable();
             reset();
 
-        } catch (HeadlessException | ClassNotFoundException | NumberFormatException | SQLException e) {
+        } catch (HeadlessException | ClassNotFoundException
+                | NumberFormatException | SQLException e) {
+
             System.out.println(e);
+
         }
     }
 
@@ -483,13 +476,16 @@ public class room_reserve_form extends javax.swing.JFrame {
 
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/HC_LTD", "root", "");
-            String sql = "SELECT * FROM bookings WHERE date_format(check_in_date, '%d') = ?";
+            Connection conn = DriverManager.getConnection(
+                    "jdbc:mysql://localhost:3306/HC_LTD", "root", "");
+            String sql = "SELECT * FROM bookings "
+                    + "WHERE date_format(check_in_date, '%d') = ?";
             PreparedStatement dateFilter = conn.prepareStatement(sql);
             dateFilter.setString(1, formattedDate);
             ResultSet rs = dateFilter.executeQuery();
 
-            DefaultTableModel model = (DefaultTableModel) display_table.getModel();
+            DefaultTableModel model;
+            model = (DefaultTableModel) display_table.getModel();
             model.setRowCount(0);
 
             while (rs.next()) {
@@ -502,13 +498,26 @@ public class room_reserve_form extends javax.swing.JFrame {
                 String payment_method = rs.getString("payment_method");
                 String check_in_date = rs.getString("check_in_date");
                 //System.out.println(rs.getString("name"));
-                Object getData[] = {name, phone, room_no, room_type, no_of_days, amount, payment_method, check_in_date};
+                Object getData[] = {
+                    name,
+                    phone,
+                    room_no,
+                    room_type,
+                    no_of_days,
+                    amount,
+                    payment_method,
+                    check_in_date
+                };
+
                 //System.out.println(Arrays.toString(getData));
                 model.addRow(getData);
             }
 
-        } catch (HeadlessException | ClassNotFoundException | NumberFormatException | SQLException e) {
+        } catch (HeadlessException | ClassNotFoundException 
+                | NumberFormatException | SQLException e) {
+            
             System.out.println(e);
+            
         }
 
     }

@@ -417,7 +417,6 @@
       </Properties>
       <Events>
         <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="roomNoTFFocusGained"/>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="roomNoTFActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JSpinner" name="spinner">
@@ -501,9 +500,6 @@
           <Font name="Liberation Sans" size="18" style="1"/>
         </Property>
       </Properties>
-      <Events>
-        <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="roomTypeTFFocusGained"/>
-      </Events>
     </Component>
   </SubComponents>
 </Form>
