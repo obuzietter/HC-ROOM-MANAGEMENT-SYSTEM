@@ -2,14 +2,17 @@ package hc.ltd;
 
 import java.awt.Color;
 import java.awt.HeadlessException;
+import java.awt.print.PrinterException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
 
@@ -623,6 +626,11 @@ public class admin_panel extends javax.swing.JFrame {
         });
 
         jButton2.setText("PRINT");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
         jPanel10.setLayout(jPanel10Layout);
@@ -866,6 +874,16 @@ public class admin_panel extends javax.swing.JFrame {
 
         }
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        MessageFormat header = new MessageFormat("");
+        MessageFormat footer = new MessageFormat("");
+        try {
+            jTable1.print(JTable.PrintMode.NORMAL, header, footer);
+        } catch (PrinterException e) {
+            JOptionPane.showMessageDialog(this, e);
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
     //PROBLEM SOLVED BUT WITHOUT CHECK FOR EMAILS
     private void createUser() {
         try {
@@ -977,7 +995,7 @@ public class admin_panel extends javax.swing.JFrame {
                     table.addRow(searchResults);
                 } while (result.next());
             } else {
-                JOptionPane.showMessageDialog(this, 
+                JOptionPane.showMessageDialog(this,
                         "Search for '" + searchTF.getText() + "' not found!");
             }
         } catch (HeadlessException | ClassNotFoundException | SQLException e) {
@@ -1009,11 +1027,11 @@ public class admin_panel extends javax.swing.JFrame {
             int deletedUser = stmt.executeUpdate();
 
             if (deletedUser > 0) {
-                JOptionPane.showMessageDialog(this, 
+                JOptionPane.showMessageDialog(this,
                         "USER DELETED SUCCESSFULLY!");
                 refresh();
             } else {
-                JOptionPane.showMessageDialog(this, 
+                JOptionPane.showMessageDialog(this,
                         "NO RECORDS FOUND!");
             }
 
@@ -1042,10 +1060,10 @@ public class admin_panel extends javax.swing.JFrame {
             stmt.setInt(6, userID);
             int updatedUser = stmt.executeUpdate();
             if (updatedUser > 0) {
-                JOptionPane.showMessageDialog(this, 
+                JOptionPane.showMessageDialog(this,
                         "1 RECORD UPDATED SUCCESSFULLY!");
             } else {
-                JOptionPane.showMessageDialog(this, 
+                JOptionPane.showMessageDialog(this,
                         "UPDATE FAILED. CHECK PARAMETERS!");
             }
 
@@ -1060,7 +1078,7 @@ public class admin_panel extends javax.swing.JFrame {
         idnoTF2.setText("");
         emailTF2.setText("");
         roleTF.setText("");
-        
+
         DefaultTableModel table;
         table = (DefaultTableModel) searchResultTable.getModel();
         table.setRowCount(0);
@@ -1086,26 +1104,26 @@ public class admin_panel extends javax.swing.JFrame {
 
             if (roomNoTF.getText().isEmpty()) {
 
-                JOptionPane.showMessageDialog(this, 
+                JOptionPane.showMessageDialog(this,
                         "ROOM NUMBER IS EMPTY!");
 
             } else if (result.next()) {
 
-                JOptionPane.showMessageDialog(this, 
+                JOptionPane.showMessageDialog(this,
                         "ROOM ALREADY EXISTS IN DATABASE");
 
-            } else if (!(roomTypeCombo.getSelectedItem().equals("DELUXE") 
+            } else if (!(roomTypeCombo.getSelectedItem().equals("DELUXE")
                     || roomTypeCombo.getSelectedItem().equals("STANDARD"))) {
 
-                JOptionPane.showMessageDialog(this, 
+                JOptionPane.showMessageDialog(this,
                         "SELECT ROOM TYPE");
 
             } else {
 
                 stmt.executeUpdate();
-                JOptionPane.showMessageDialog(this, 
+                JOptionPane.showMessageDialog(this,
                         "ROOM CREATED SUCCCESSFULLY!");
-                
+
                 fetchRooms();
 
             }
@@ -1123,11 +1141,11 @@ public class admin_panel extends javax.swing.JFrame {
             String sql = "SELECT * FROM rooms";
             PreparedStatement stmt = conn.prepareStatement(sql);
             ResultSet result = stmt.executeQuery();
-            
+
             DefaultTableModel table;
             table = (DefaultTableModel) roomsTable.getModel();
             table.setRowCount(0);
-            
+
             while (result.next()) {
 
                 int id = result.getInt("id");
@@ -1138,10 +1156,10 @@ public class admin_panel extends javax.swing.JFrame {
 
                 // Create an array of search results
                 Object rooms[] = {
-                    id, 
-                    roomNo, 
-                    roomType, 
-                    price, 
+                    id,
+                    roomNo,
+                    roomType,
+                    price,
                     status
                 };
 
@@ -1179,12 +1197,12 @@ public class admin_panel extends javax.swing.JFrame {
             int deletedRoom = stmt.executeUpdate();
 
             if (deletedRoom > 0) {
-                JOptionPane.showMessageDialog(this, 
+                JOptionPane.showMessageDialog(this,
                         "ROOM DELETED SUCCESSFULLY!");
                 refresh();
                 fetchRooms();
             } else {
-                JOptionPane.showMessageDialog(this, 
+                JOptionPane.showMessageDialog(this,
                         "NO RECORDS FOUND!");
             }
 
@@ -1216,10 +1234,10 @@ public class admin_panel extends javax.swing.JFrame {
 
                 // Create an array of search results
                 Object rooms[] = {
-                    fullName, 
-                    userName, 
-                    idNo, 
-                    email, 
+                    fullName,
+                    userName,
+                    idNo,
+                    email,
                     role
                 };
 
