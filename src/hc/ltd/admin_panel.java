@@ -1,8 +1,14 @@
 package hc.ltd;
 
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.HeadlessException;
+import java.awt.print.PageFormat;
+import java.awt.print.Printable;
 import java.awt.print.PrinterException;
+import java.awt.print.PrinterJob;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -11,7 +17,10 @@ import java.sql.SQLException;
 import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
@@ -876,12 +885,36 @@ public class admin_panel extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        MessageFormat header = new MessageFormat("");
-        MessageFormat footer = new MessageFormat("");
-        try {
-            jTable1.print(JTable.PrintMode.NORMAL, header, footer);
-        } catch (PrinterException e) {
-            JOptionPane.showMessageDialog(this, e);
+     PrinterJob job = PrinterJob.getPrinterJob();
+            job.setJobName("Print Data");
+            
+            job.setPrintable(new Printable(){
+            public int print(Graphics pg,PageFormat pf, int pageNum){
+                    pf.setOrientation(PageFormat.PORTRAIT);
+                 if(pageNum>0){
+                    return Printable.NO_SUCH_PAGE;
+                }
+                
+                Graphics2D g2 = (Graphics2D)pg;
+                g2.translate(pf.getImageableX(), pf.getImageableY());
+                g2.scale(0.24,0.24);
+                
+                jPanel3.paint(g2);
+//          
+               
+                return Printable.PAGE_EXISTS;
+                         
+                
+            }
+    });
+         
+        boolean ok = job.printDialog();
+        if(ok){
+        try{
+            
+        job.print();
+        }
+        catch (PrinterException ex){}
         }
     }//GEN-LAST:event_jButton2ActionPerformed
     //PROBLEM SOLVED BUT WITHOUT CHECK FOR EMAILS
