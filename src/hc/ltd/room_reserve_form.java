@@ -176,11 +176,11 @@ public class room_reserve_form extends javax.swing.JFrame {
 
             },
             new String [] {
-                "NAME", "PHONE", "ROOM NO", "ROOM TYPE", "NO OF DAYS", "AMOUNT", "PAYMENT", "CHECK IN"
+                "ID", "NAME", "PHONE", "ROOM NO", "ROOM TYPE", "NO OF DAYS", "AMOUNT", "PAYMENT", "CHECK IN"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -196,9 +196,9 @@ public class room_reserve_form extends javax.swing.JFrame {
         display_table.setShowHorizontalLines(true);
         jScrollPane2.setViewportView(display_table);
         if (display_table.getColumnModel().getColumnCount() > 0) {
-            display_table.getColumnModel().getColumn(2).setPreferredWidth(35);
-            display_table.getColumnModel().getColumn(4).setPreferredWidth(35);
-            display_table.getColumnModel().getColumn(6).setPreferredWidth(50);
+            display_table.getColumnModel().getColumn(3).setPreferredWidth(35);
+            display_table.getColumnModel().getColumn(5).setPreferredWidth(35);
+            display_table.getColumnModel().getColumn(7).setPreferredWidth(50);
         }
 
         refresh.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/refresh-button.png"))); // NOI18N
@@ -215,6 +215,11 @@ public class room_reserve_form extends javax.swing.JFrame {
         checkoutBtn.setIconTextGap(6);
         checkoutBtn.setVerticalAlignment(javax.swing.SwingConstants.TOP);
         checkoutBtn.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
+        checkoutBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                checkoutBtnActionPerformed(evt);
+            }
+        });
 
         jLabel7.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
         jLabel7.setText("Room Type");
@@ -418,6 +423,10 @@ public class room_reserve_form extends javax.swing.JFrame {
     private void roomStatusTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_roomStatusTableMouseClicked
         loadRoomData();
     }//GEN-LAST:event_roomStatusTableMouseClicked
+
+    private void checkoutBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkoutBtnActionPerformed
+        checkOut();
+    }//GEN-LAST:event_checkoutBtnActionPerformed
     private void loadRoomData() {
         DefaultTableModel model;
         model = (DefaultTableModel) roomStatusTable.getModel();
@@ -435,8 +444,8 @@ public class room_reserve_form extends javax.swing.JFrame {
             Connection conn = DriverManager.getConnection(
                     "jdbc:mysql://localhost:3306/HC_LTD", "root", "");
             String sql = "INSERT INTO bookings (name, phone, id_no, room_type, "
-                    + "room_no, no_of_days, amount, payment_method) VALUES "
-                    + "(?, ?, ?, ?, ?, ?, ?, ?)";
+                    + "room_no, no_of_days, amount, payment_method, status) VALUES "
+                    + "(?, ?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement stmt = conn.prepareStatement(sql);
             stmt.setString(1, nameTF.getText());
             stmt.setString(2, phoneTF.getText());
@@ -446,20 +455,28 @@ public class room_reserve_form extends javax.swing.JFrame {
             stmt.setObject(6, spinner.getValue());
             stmt.setInt(7, Integer.parseInt(amtTF.getText()));
             stmt.setObject(8, paymentCombo.getSelectedItem());
-            stmt.executeUpdate();
+            stmt.setString(9, "ACTIVE");
 
-            //UPDATING THE ROOM STATUS UPON MAKING RESERVATION
-            String updateStatus = "UPDATE rooms SET room_state = ? "
-                    + "WHERE room_no = ?";
-            PreparedStatement updateStmt;
-            updateStmt = conn.prepareStatement(updateStatus);
-            updateStmt.setString(1, "BOOKED");
-            updateStmt.setInt(2, Integer.parseInt(roomNoTF.getText()));
-            updateStmt.executeUpdate();
+            if (nameTF.getText().isEmpty() || phoneTF.getText().isEmpty() || idTF.getText().isEmpty() || roomNoTF.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(this, "CHECK FOR EMPTY FIELDS!");
+            } else if (paymentCombo.getSelectedIndex() == 0) {
+                JOptionPane.showMessageDialog(this, "SELECT PAYMENT METHOD!");
+            } else {
+                stmt.executeUpdate();
 
-            JOptionPane.showMessageDialog(this, "BOOKING SUCCESSFUL!");
-            updateRoomStatusTable();
-            reset();
+                //UPDATING THE ROOM STATUS UPON MAKING RESERVATION
+                String updateStatus = "UPDATE rooms SET room_state = ? "
+                        + "WHERE room_no = ?";
+                PreparedStatement updateStmt;
+                updateStmt = conn.prepareStatement(updateStatus);
+                updateStmt.setString(1, "BOOKED");
+                updateStmt.setInt(2, Integer.parseInt(roomNoTF.getText()));
+                updateStmt.executeUpdate();
+
+                JOptionPane.showMessageDialog(this, "BOOKING SUCCESSFUL!");
+                updateRoomStatusTable();
+                reset();
+            }
 
         } catch (HeadlessException | ClassNotFoundException
                 | NumberFormatException | SQLException e) {
@@ -470,25 +487,26 @@ public class room_reserve_form extends javax.swing.JFrame {
     }
 
     private void loadActiveUsers() {
-        Date currentDate = new Date();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd");
-        String formattedDate = dateFormat.format(currentDate);
+//        Date currentDate = new Date();
+//        SimpleDateFormat dateFormat = new SimpleDateFormat("dd");
+//        String formattedDate = dateFormat.format(currentDate);
 
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             Connection conn = DriverManager.getConnection(
                     "jdbc:mysql://localhost:3306/HC_LTD", "root", "");
             String sql = "SELECT * FROM bookings "
-                    + "WHERE date_format(check_in_date, '%d') = ?";
-            PreparedStatement dateFilter = conn.prepareStatement(sql);
-            dateFilter.setString(1, formattedDate);
-            ResultSet rs = dateFilter.executeQuery();
+                    + "WHERE status = ?";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setString(1, "ACTIVE");
+            ResultSet rs = stmt.executeQuery();
 
             DefaultTableModel model;
             model = (DefaultTableModel) display_table.getModel();
             model.setRowCount(0);
 
             while (rs.next()) {
+                int id = rs.getInt("booking_id");
                 String name = rs.getString("name");
                 String phone = rs.getString("phone");
                 String room_no = rs.getString("room_no");
@@ -499,6 +517,7 @@ public class room_reserve_form extends javax.swing.JFrame {
                 String check_in_date = rs.getString("check_in_date");
                 //System.out.println(rs.getString("name"));
                 Object getData[] = {
+                    id,
                     name,
                     phone,
                     room_no,
@@ -513,13 +532,34 @@ public class room_reserve_form extends javax.swing.JFrame {
                 model.addRow(getData);
             }
 
-        } catch (HeadlessException | ClassNotFoundException 
+        } catch (HeadlessException | ClassNotFoundException
                 | NumberFormatException | SQLException e) {
-            
+
             System.out.println(e);
-            
+
         }
 
+    }
+
+    private void checkOut() {
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection conn = DriverManager.getConnection(
+                    "jdbc:mysql://localhost:3306/HC_LTD", "root", "");
+            String sql = "UPDATE bookings SET status = ? where booking_id = ?";
+            int confirm = JOptionPane.showConfirmDialog(this, "Check Out Customer?", "CHECK OUT", JOptionPane.YES_NO_OPTION);
+            if (confirm==0){
+            int row = display_table.getSelectedRow();
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setString(1, "CHECKED_OUT");
+            stmt.setInt(2, (int) display_table.getValueAt(row, 0));
+            stmt.executeUpdate();
+            loadActiveUsers();
+            }
+
+        } catch (ClassNotFoundException | SQLException e) {
+            System.out.println(e);
+        }
     }
 
     /**

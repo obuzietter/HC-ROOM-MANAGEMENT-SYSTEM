@@ -842,8 +842,7 @@ public class admin_panel extends javax.swing.JFrame {
             dateFilter.setString(3, formattedYear);
 
             ResultSet rs = dateFilter.executeQuery();
-
-            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+             DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
             model.setRowCount(0);
             int due = 0;
             while (rs.next()) {
@@ -874,8 +873,7 @@ public class admin_panel extends javax.swing.JFrame {
 
             Object[] totalRow = {"TOTAL", "", "", "", "", "", due, "", ""};
             model.addRow(totalRow);
-            System.out.println(due);
-
+          
         } catch (HeadlessException | ClassNotFoundException
                 | NumberFormatException | SQLException e) {
 
@@ -885,36 +883,35 @@ public class admin_panel extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-     PrinterJob job = PrinterJob.getPrinterJob();
-            job.setJobName("Print Data");
-            
-            job.setPrintable(new Printable(){
-            public int print(Graphics pg,PageFormat pf, int pageNum){
-                    pf.setOrientation(PageFormat.PORTRAIT);
-                 if(pageNum>0){
+        PrinterJob job = PrinterJob.getPrinterJob();
+        job.setJobName("Print Data");
+
+        job.setPrintable(new Printable() {
+            public int print(Graphics pg, PageFormat pf, int pageNum) {
+                pf.setOrientation(PageFormat.PORTRAIT);
+                if (pageNum > 0) {
                     return Printable.NO_SUCH_PAGE;
                 }
-                
-                Graphics2D g2 = (Graphics2D)pg;
+
+                Graphics2D g2 = (Graphics2D) pg;
                 g2.translate(pf.getImageableX(), pf.getImageableY());
-                g2.scale(0.24,0.24);
-                
+                g2.scale(0.24, 0.24);
+
                 jPanel3.paint(g2);
 //          
-               
+
                 return Printable.PAGE_EXISTS;
-                         
-                
+
             }
-    });
-         
+        });
+
         boolean ok = job.printDialog();
-        if(ok){
-        try{
-            
-        job.print();
-        }
-        catch (PrinterException ex){}
+        if (ok) {
+            try {
+
+                job.print();
+            } catch (PrinterException ex) {
+            }
         }
     }//GEN-LAST:event_jButton2ActionPerformed
     //PROBLEM SOLVED BUT WITHOUT CHECK FOR EMAILS
