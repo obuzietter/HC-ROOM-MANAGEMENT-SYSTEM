@@ -123,6 +123,11 @@ public class room_reserve_form extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Room Reserve");
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+        });
 
         jLabel2.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
         jLabel2.setText("Customer Name");
@@ -427,6 +432,11 @@ public class room_reserve_form extends javax.swing.JFrame {
     private void checkoutBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkoutBtnActionPerformed
         checkOut();
     }//GEN-LAST:event_checkoutBtnActionPerformed
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        login_form loginForm = new login_form();
+        loginForm.setVisible(true);
+    }//GEN-LAST:event_formWindowClosed
     private void loadRoomData() {
         DefaultTableModel model;
         model = (DefaultTableModel) roomStatusTable.getModel();
@@ -548,13 +558,13 @@ public class room_reserve_form extends javax.swing.JFrame {
                     "jdbc:mysql://localhost:3306/HC_LTD", "root", "");
             String sql = "UPDATE bookings SET status = ? where booking_id = ?";
             int confirm = JOptionPane.showConfirmDialog(this, "Check Out Customer?", "CHECK OUT", JOptionPane.YES_NO_OPTION);
-            if (confirm==0){
-            int row = display_table.getSelectedRow();
-            PreparedStatement stmt = conn.prepareStatement(sql);
-            stmt.setString(1, "CHECKED_OUT");
-            stmt.setInt(2, (int) display_table.getValueAt(row, 0));
-            stmt.executeUpdate();
-            loadActiveUsers();
+            if (confirm == 0) {
+                int row = display_table.getSelectedRow();
+                PreparedStatement stmt = conn.prepareStatement(sql);
+                stmt.setString(1, "CHECKED_OUT");
+                stmt.setInt(2, (int) display_table.getValueAt(row, 0));
+                stmt.executeUpdate();
+                loadActiveUsers();
             }
 
         } catch (ClassNotFoundException | SQLException e) {
@@ -577,8 +587,7 @@ public class room_reserve_form extends javax.swing.JFrame {
 //                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
 //                    break;
 //                }
-                UIManager.setLookAndFeel("com.jtattoo.plaf.mcwin.McWinLookAndFeel"); //kali
-
+                UIManager.setLookAndFeel("com.jtattoo.plaf.aluminium.AluminiumLookAndFeel");
             }
         } catch (ClassNotFoundException ex) {
             java.util.logging.Logger.getLogger(room_reserve_form.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);

@@ -1,5 +1,6 @@
 package hc.ltd;
 
+import java.awt.HeadlessException;
 import javax.swing.JOptionPane;
 import java.sql.*;
 import javax.swing.UIManager;
@@ -116,10 +117,24 @@ public class login_form extends javax.swing.JFrame {
     }//GEN-LAST:event_pwdTFActionPerformed
 
     private void loginBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginBtnActionPerformed
-
-        try {
+authenticate();
+      
+    }//GEN-LAST:event_loginBtnActionPerformed
+    
+    private void cancelBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelBtnActionPerformed
+        System.exit(0);
+    }//GEN-LAST:event_cancelBtnActionPerformed
+    private void resetFields() {
+        usernameTF.setText(null);
+        pwdTF.setText(null);
+    }
+    private void authenticate(){
+          try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/HC_LTD", "root", "");
+            Connection conn = DriverManager.getConnection(
+                    "jdbc:mysql://localhost:3306/HC_LTD", 
+                    "root", 
+                    "");
             String sql = "SELECT * FROM users where username=? and password=?";
             PreparedStatement stmt = conn.prepareStatement(sql);
             stmt.setString(1, usernameTF.getText());
@@ -139,28 +154,23 @@ public class login_form extends javax.swing.JFrame {
                         dispose();
                         new room_reserve_form().setVisible(true);
 
-                    } else if (role.equals("ADMIN") || role.equals("MANAGER")) {
+                    } else if (role.equals("ADMIN") 
+                            || role.equals("MANAGER")) {
                         dispose();
                         new admin_panel().setVisible(true);
                         
                     }
                 } else {
-                    JOptionPane.showMessageDialog(this, "Incorrect credentials!");
+                    JOptionPane.showMessageDialog(this, 
+                            "Incorrect credentials!");
                     resetFields();
                 }
 
             }
 
-        } catch (Exception e) {
+        } catch (HeadlessException | ClassNotFoundException | SQLException e) {
             System.out.print(e);
-    }//GEN-LAST:event_loginBtnActionPerformed
-    }
-    private void cancelBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelBtnActionPerformed
-        System.exit(0);
-    }//GEN-LAST:event_cancelBtnActionPerformed
-    private void resetFields() {
-        usernameTF.setText(null);
-        pwdTF.setText(null);
+    }               
     }
 
     /**
@@ -178,8 +188,7 @@ public class login_form extends javax.swing.JFrame {
 //                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
 //                    break;
 //                }               
-                UIManager.setLookAndFeel("com.jtattoo.plaf.mcwin.McWinLookAndFeel"); //kali
-
+                UIManager.setLookAndFeel("com.jtattoo.plaf.aluminium.AluminiumLookAndFeel");
             }
         } catch (ClassNotFoundException ex) {
             java.util.logging.Logger.getLogger(login_form.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
