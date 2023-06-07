@@ -1,1 +1,0 @@
-typeSearchIndex = [{"p":"hc.ltd","l":"admin_panel"},{"l":"All Classes","url":"allclasses-index.html"},{"p":"hc.ltd","l":"create_room"},{"p":"hc.ltd","l":"HCLTD"},{"p":"hc.ltd","l":"login_form"},{"p":"hc.ltd","l":"room_reserve_form"},{"p":"hc.ltd","l":"splash_p"}]
