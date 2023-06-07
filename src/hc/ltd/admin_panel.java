@@ -276,7 +276,7 @@ public class admin_panel extends javax.swing.JFrame {
         jLabel25.setText("Role");
 
         saveChanges.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
-        saveChanges.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/save.png"))); // NOI18N
+        saveChanges.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/save-file.png"))); // NOI18N
         saveChanges.setText("SAVE");
         saveChanges.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
